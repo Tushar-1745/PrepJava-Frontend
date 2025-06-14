@@ -13,9 +13,9 @@
 //     message,
 //   });
 //   return response.data.reply;
-// }
-import axios from "axios";
-const API_BASE = import.meta.env.REACT_APP_BACKEND_URL;
+// }import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_FEEDBACK_API_URL;
 
 export async function getOpenAIFeedback(question, answer) {
   const response = await axios.post(`${API_BASE}/api/feedback`, {
