@@ -16,10 +16,10 @@
 // }
 
 import axios from "axios";
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE = import.meta.env.VITE_FEEDBACK_API_URL;
 
 export async function getOpenAIFeedback(question, answer) {
-  const response = await axios.post(`${BASE_URL}/api/feedback`, {
+  const response = await axios.post(`${API_BASE}/api/feedback`, {
     question,
     answer,
   });
@@ -27,7 +27,7 @@ export async function getOpenAIFeedback(question, answer) {
 }
 
 export async function postChatMessage(message) {
-  const response = await axios.post(`${BASE_URL}/api/chat`, {
+  const response = await axios.post(`${API_BASE}/api/chat`, {
     message,
   });
   return response.data.reply;
