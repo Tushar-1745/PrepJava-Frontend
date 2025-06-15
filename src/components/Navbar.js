@@ -423,4 +423,3 @@ const profileIconStyle = {
     /* Corrected alignment */
     marginLeft: '10px', // Small spacing instead of static 250px
 };
-
