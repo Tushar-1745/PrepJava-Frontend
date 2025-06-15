@@ -208,7 +208,9 @@ export const getSolutionsOfSolvedProblem = async (userId, problemId) => {
 
 
 
-const MIDDLEWARE_API_URL = 'http://localhost:5001/api'; // Middleware server URL
+// const MIDDLEWARE_API_URL = 'http://localhost:5001/api'; // Middleware server URL
+
+const MIDDLEWARE_API_URL = 'https://prepjava-jdoodle-server.onrender.com/api';
 
 // New function to interact with middleware server
 export const FetchCodeResult = async (code, language = 'java', versionIndex = '0', input = '') => {
