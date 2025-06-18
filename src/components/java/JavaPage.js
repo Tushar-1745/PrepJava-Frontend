@@ -34,7 +34,7 @@
 //                 </div>
 
 //                 {/* Main Content */}
-                
+
 //                 <div style={styles.contentContainer}>
 //                     <JavaCurrentPage currentPage={currentPage} />
 //                 </div>
@@ -157,11 +157,16 @@ const JavaPage = () => {
                 <div
                     style={{
                         ...styles.contentContainer,
-                        ...(isMobile && sidebarOpen ? { marginLeft: '250px' } : {}),
+                        ...(isMobile
+                            ? sidebarOpen
+                                ? { marginLeft: '250px', width: 'calc(100% - 250px)' }
+                                : { width: '100%', marginLeft: 0 }
+                            : {}),
                     }}
                 >
                     <JavaCurrentPage currentPage={currentPage} />
                 </div>
+
             </div>
 
             {/* Footer */}
