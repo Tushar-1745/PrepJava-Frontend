@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext.js';
 
@@ -26,7 +26,24 @@ const HoverLink = ({ to, children }) => {
 };
 
 const Navbar = () => {
+    const dsaRef = useRef(null);
+    const frameworksRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dsaRef.current &&
+                !dsaRef.current.contains(event.target) &&
+                frameworksRef.current &&
+                !frameworksRef.current.contains(event.target)
+            ) {
+                setExpandedDropdowns({});
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
     const [expandedDropdowns, setExpandedDropdowns] = useState({});
+    const [mobileSubmenus, setMobileSubmenus] = useState({});
     const [isMobile, setIsMobile] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -35,6 +52,13 @@ const Navbar = () => {
 
     const toggleDropdown = (name) => {
         setExpandedDropdowns((prev) => ({
+            ...prev,
+            [name]: !prev[name],
+        }));
+    };
+
+    const toggleMobileSubmenu = (name) => {
+        setMobileSubmenus((prev) => ({
             ...prev,
             [name]: !prev[name],
         }));
@@ -54,13 +78,13 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav style={{ ...navbarStyle, boxShadow: '0px 2px 5px rgba(0,0,0,0.2)' }}>
+        <nav style={navbarStyle}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <img src="/images/prepjava_logo.webp" alt="PrepJava Logo" style={{ height: '50px', width: '50px' }} />
                 <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: 'white' }}>PrepJava</h1>
             </div>
 
-            {/* Hamburger Icon */}
+            {/* Hamburger for Mobile */}
             {isMobile ? (
                 <div onClick={() => setMenuOpen(!menuOpen)} style={hamburgerStyle}>
                     <div style={barStyle}></div>
@@ -70,31 +94,50 @@ const Navbar = () => {
             ) : (
                 <div style={leftSectionStyle}>
                     <div style={{ position: 'relative' }}>
-                        <button onClick={() => toggleDropdown('dsa')} style={buttonStyle}>
+                        <button
+                            onClick={() => toggleDropdown('dsa')}
+                            style={buttonStyle}
+                        >
                             DSA <span style={caretStyle}>&#9662;</span>
                         </button>
                         {expandedDropdowns.dsa && (
-                            <div style={dropdownStyle}>
+                            <div
+                                style={dropdownStyle}
+                                onMouseLeave={() =>
+                                    setExpandedDropdowns((prev) => ({ ...prev, dsa: false }))
+                                }
+                            >
                                 <Link to="/dsa/intro" style={{ ...buttonStyle, ...dropdownItemStyle }}>DSA Intro</Link>
                                 <Link to="/dsa/problems" style={{ ...buttonStyle, ...dropdownItemStyle }}>DSA Problems</Link>
-                                <Link to='/sql-questions' style={{ ...buttonStyle, ...dropdownItemStyle }}>SQL Queries</Link>
+                                <Link to="/sql-questions" style={{ ...buttonStyle, ...dropdownItemStyle }}>SQL Queries</Link>
                             </div>
                         )}
                     </div>
 
+
+
                     <HoverLink to="/dbmsoverview">DBMS</HoverLink>
 
                     <div style={{ position: 'relative' }}>
-                        <button onClick={() => toggleDropdown('frameworks')} style={buttonStyle}>
+                        <button
+                            onClick={() => toggleDropdown('frameworks')}
+                            style={buttonStyle}
+                        >
                             Frameworks <span style={caretStyle}>&#9662;</span>
                         </button>
                         {expandedDropdowns.frameworks && (
-                            <div style={dropdownStyle}>
+                            <div
+                                style={dropdownStyle}
+                                onMouseLeave={() =>
+                                    setExpandedDropdowns((prev) => ({ ...prev, frameworks: false }))
+                                }
+                            >
                                 <Link to="/hibernate" style={{ ...buttonStyle, ...dropdownItemStyle }}>Hibernate</Link>
                                 <Link to="/springboot" style={{ ...buttonStyle, ...dropdownItemStyle }}>Spring Boot</Link>
                             </div>
                         )}
                     </div>
+
 
                     <HoverLink to="/interview">Interview</HoverLink>
                 </div>
@@ -104,10 +147,7 @@ const Navbar = () => {
             {!isMobile && (
                 <div style={{ display: 'flex' }}>
                     {loggedIn ? (
-                        <div
-                            onClick={() => navigate('/profile')}
-                            style={profileIconStyle}
-                        >
+                        <div onClick={() => navigate('/profile')} style={profileIconStyle}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                 <path d="M14 13s-1-1-6-1-6 1-6 1 1-4 6-4 6 3 6 4z" />
@@ -122,13 +162,36 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {isMobile && menuOpen && (
                 <div style={mobileMenuStyle}>
-                    <Link to="/dsa/intro" style={mobileItemStyle}>DSA Intro</Link>
-                    <Link to="/dsa/problems" style={mobileItemStyle}>DSA Problems</Link>
-                    <Link to="/sql-questions" style={mobileItemStyle}>SQL Queries</Link>
+                    {/* DSA */}
+                    <div onClick={() => toggleMobileSubmenu('dsa')} style={mobileItemStyle}>
+                        DSA <span style={caretStyle}>&#9662;</span>
+                    </div>
+                    {mobileSubmenus.dsa && (
+                        <div style={mobileSubmenuStyle}>
+                            <Link to="/dsa/intro" style={mobileSubItemStyle}>DSA Intro</Link>
+                            <Link to="/dsa/problems" style={mobileSubItemStyle}>DSA Problems</Link>
+                            <Link to="/sql-questions" style={mobileSubItemStyle}>SQL Queries</Link>
+                        </div>
+                    )}
+
+                    {/* DBMS */}
                     <Link to="/dbmsoverview" style={mobileItemStyle}>DBMS</Link>
-                    <Link to="/hibernate" style={mobileItemStyle}>Hibernate</Link>
-                    <Link to="/springboot" style={mobileItemStyle}>Spring Boot</Link>
+
+                    {/* Frameworks */}
+                    <div onClick={() => toggleMobileSubmenu('frameworks')} style={mobileItemStyle}>
+                        Frameworks <span style={caretStyle}>&#9662;</span>
+                    </div>
+                    {mobileSubmenus.frameworks && (
+                        <div style={mobileSubmenuStyle}>
+                            <Link to="/hibernate" style={mobileSubItemStyle}>Hibernate</Link>
+                            <Link to="/springboot" style={mobileSubItemStyle}>Spring Boot</Link>
+                        </div>
+                    )}
+
+                    {/* Interview */}
                     <Link to="/interview" style={mobileItemStyle}>Interview</Link>
+
+                    {/* Profile/Login */}
                     {loggedIn ? (
                         <div onClick={() => navigate('/profile')} style={mobileItemStyle}>Profile</div>
                     ) : (
@@ -142,6 +205,8 @@ const Navbar = () => {
 
 export default Navbar;
 
+// ==== Styles ====
+
 const navbarStyle = {
     width: '100%',
     display: 'flex',
@@ -149,12 +214,9 @@ const navbarStyle = {
     justifyContent: 'space-between',
     backgroundColor: '#2c3e50',
     padding: '5px 20px',
-    position: 'relative',
     flexWrap: 'wrap',
-    boxShadow: '0 3px 6px rgba(0, 0, 0, 0.3)', // subtle elevation
-    borderBottom: '2px solid #1abc9c', // aqua separator line
+    borderBottom: '2px solid #1abc9c',
 };
-
 
 const leftSectionStyle = {
     display: 'flex',
@@ -198,6 +260,8 @@ const dropdownStyle = {
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     zIndex: 1,
     padding: '10px 0',
+    display: 'flex',
+    flexDirection: 'column',
 };
 
 const dropdownItemStyle = {
@@ -214,6 +278,7 @@ const loginButtonStyle = {
     fontSize: '15px',
     border: 'none',
     cursor: 'pointer',
+    marginRight:'35px'
 };
 
 const profileIconStyle = {
@@ -224,6 +289,7 @@ const profileIconStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight:'35px'
 };
 
 const hamburgerStyle = {
@@ -254,5 +320,21 @@ const mobileItemStyle = {
     color: 'white',
     textDecoration: 'none',
     fontSize: '16px',
+    borderBottom: '1px solid rgba(255,255,255,0.1)',
+    cursor: 'pointer',
+};
+
+const mobileSubmenuStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#34495e',
+    paddingLeft: '20px',
+};
+
+const mobileSubItemStyle = {
+    padding: '8px 20px',
+    color: 'white',
+    textDecoration: 'none',
+    fontSize: '15px',
     borderBottom: '1px solid rgba(255,255,255,0.1)',
 };

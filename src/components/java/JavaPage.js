@@ -134,8 +134,9 @@ const JavaPage = () => {
             {isMobile && (
                 <div style={styles.mobileMenuContainer}>
                     <button onClick={toggleSidebar} style={styles.menuButton}>
-                        📂 Menu
+                        &#9776; Menu
                     </button>
+
                 </div>
             )}
 
@@ -158,14 +159,13 @@ const JavaPage = () => {
                     style={{
                         ...styles.contentContainer,
                         ...(isMobile
-                            ? sidebarOpen
-                                ? { marginLeft: '250px', width: 'calc(100% - 250px)' }
-                                : { width: '100%', marginLeft: 0 }
+                            ? { width: '100%', marginLeft: 0 } // <-- FIXED
                             : {}),
                     }}
                 >
                     <JavaCurrentPage currentPage={currentPage} />
                 </div>
+
 
             </div>
 
