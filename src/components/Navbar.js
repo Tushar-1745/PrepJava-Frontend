@@ -303,6 +303,7 @@ const barStyle = {
     width: '25px',
     height: '3px',
     backgroundColor: 'white',
+    marginRight:'30px'
 };
 
 const mobileMenuStyle = {
