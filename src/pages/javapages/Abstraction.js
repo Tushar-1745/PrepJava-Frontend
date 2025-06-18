@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Abstraction = () => {
+    const navigate = useNavigate();
+
     const styles = {
         container: {
             padding: '10px 20px',
@@ -50,6 +53,17 @@ const Abstraction = () => {
             border: '1px solid black',
             padding: '8px',
             textAlign: 'left',
+        },
+        quizButton: {
+            marginTop: '30px',
+            padding: '12px 24px',
+            fontSize: '1rem',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s ease',
         }
     };
 
@@ -59,12 +73,16 @@ const Abstraction = () => {
         </div>
     );
 
+    const handleTakeQuiz = () => {
+        navigate('/java/abstraction/test');
+    };
+
     return (
         <div style={styles.container}>
             <h1 style={styles.header}>Abstraction in Java</h1>
 
             <p style={styles.paragraph}>
-                **Abstraction** is a principle in Java that hides the implementation details and shows only the essential features of an object.
+                <strong>Abstraction</strong> is a principle in Java that hides the implementation details and shows only the essential features of an object.
             </p>
 
             <h2 style={styles.sectionHeader}>Why Use Abstraction?</h2>
@@ -137,6 +155,10 @@ public class Main {
                     </tr>
                 </tbody>
             </table>
+
+            <button style={styles.quizButton} onClick={handleTakeQuiz}>
+                Take Quiz on Abstraction
+            </button>
         </div>
     );
 };

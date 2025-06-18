@@ -193,10 +193,21 @@ const Navbar = () => {
 
                     {/* Profile/Login */}
                     {loggedIn ? (
-                        <div onClick={() => navigate('/profile')} style={mobileItemStyle}>Profile</div>
+                        <div
+                            onClick={() => navigate('/profile')}
+                            style={{ ...mobileItemStyle, ...mobileActionButtonStyle }}
+                        >
+                            Profile
+                        </div>
                     ) : (
-                        <Link to="/login" style={mobileItemStyle}>Login</Link>
+                        <Link
+                            to="/login"
+                            style={{ ...mobileItemStyle, ...mobileActionButtonStyle }}
+                        >
+                            Login
+                        </Link>
                     )}
+
                 </div>
             )}
         </nav>
@@ -217,6 +228,19 @@ const navbarStyle = {
     flexWrap: 'wrap',
     borderBottom: '2px solid #1abc9c',
 };
+
+const mobileActionButtonStyle = {
+    backgroundColor: '#1abc9c',
+    borderRadius: '8px',
+    margin: '10px 20px',
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: '12px 0',
+    fontSize: '16px',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+};
+
 
 const leftSectionStyle = {
     display: 'flex',
@@ -278,7 +302,7 @@ const loginButtonStyle = {
     fontSize: '15px',
     border: 'none',
     cursor: 'pointer',
-    marginRight:'35px'
+    marginRight: '35px'
 };
 
 const profileIconStyle = {
@@ -289,7 +313,7 @@ const profileIconStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight:'35px'
+    marginRight: '35px'
 };
 
 const hamburgerStyle = {
@@ -303,7 +327,7 @@ const barStyle = {
     width: '25px',
     height: '3px',
     backgroundColor: 'white',
-    marginRight:'30px'
+    marginRight: '30px'
 };
 
 const mobileMenuStyle = {
