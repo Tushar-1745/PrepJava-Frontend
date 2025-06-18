@@ -23,9 +23,9 @@ const JavaPage = () => {
             </div>
 
             {/* Sticky Breadcrumb */}
-            <div style={styles.breadcrumbContainer}>
+            {/* <div style={styles.breadcrumbContainer}>
                 <Breadcrumb breadcrumbItems={breadcrumbItems} />
-            </div>
+            </div> */}
 
             {/* Main Content with Sidebar and Page */}
             <div style={styles.mainContent}>
@@ -35,6 +35,7 @@ const JavaPage = () => {
                 </div>
 
                 {/* Main Content */}
+                
                 <div style={styles.contentContainer}>
                     <JavaCurrentPage currentPage={currentPage} />
                 </div>
