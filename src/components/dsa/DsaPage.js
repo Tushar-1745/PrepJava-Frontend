@@ -1,46 +1,96 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DSASidebar from './DSASidebar';
 import DSACurrentPage from './DSACurrentPage';
-import Navbar from '../Navbar'; // Assuming Navbar is in the common folder
-import Footer from '../Footer'; // Assuming Footer is in the common folder
-import Breadcrumb from '../Breadcrumb'; // Assuming Breadcrumb is in the common folder
+import Navbar from '../Navbar';
+import Footer from '../Footer';
+import Breadcrumb from '../Breadcrumb';
+import { useLocation } from 'react-router-dom';
 
-const DSAPage = () => { 
-    const [currentPage, setCurrentPage] = useState('DSAOverview'); // Default page
-    const [breadcrumbItems, setBreadcrumbItems] = useState([]);
+const DSAPage = () => {
+    const [currentPage, setCurrentPage] = useState('DSAOverview');
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const sidebarRef = useRef();
+    const location = useLocation();
 
-    // Update breadcrumb when currentPage changes
+    const breadcrumbItems = ['Home', 'DSA', currentPage];
+
     useEffect(() => {
-        const breadcrumbs = ['Home', 'DSA', currentPage];
-        setBreadcrumbItems(breadcrumbs);
-    }, [currentPage]);
+        const handleResize = () => {
+            const mobile = window.innerWidth <= 768;
+            setIsMobile(mobile);
+            if (!mobile) setSidebarOpen(false);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                sidebarRef.current &&
+                !sidebarRef.current.contains(event.target) &&
+                isMobile &&
+                sidebarOpen
+            ) {
+                setSidebarOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isMobile, sidebarOpen]);
+
+    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
     return (
         <div style={styles.pageContainer}>
-            {/* Navbar */}
             <div style={styles.navbarContainer}>
                 <Navbar />
             </div>
 
-            {/* Sticky Breadcrumb */}
-            <div style={styles.breadcrumbContainer}>
-                <Breadcrumb breadcrumbItems={breadcrumbItems} />
-            </div>
-
-            {/* Main Content with Sidebar and Page */}
             <div style={styles.mainContent}>
-                {/* Sidebar */}
-                <div style={styles.sidebarContainer}>
-                    <DSASidebar setCurrentPage={setCurrentPage} />
-                </div>
+                {(sidebarOpen || !isMobile) && (
+                    <div
+                        ref={isMobile ? sidebarRef : null}
+                        style={{
+                            ...styles.sidebarContainer,
+                            ...(isMobile ? styles.mobileSidebar : {}),
+                        }}
+                    >
+                        <DSASidebar
+                            setCurrentPage={(page) => {
+                                setCurrentPage(page);
+                                if (isMobile) setSidebarOpen(false);
+                            }}
+                        />
+                    </div>
+                )}
 
-                {/* Main Content */}
-                <div style={styles.contentContainer}>
-                    <DSACurrentPage currentPage={currentPage} />
+                <div
+                    style={{
+                        ...styles.contentContainer,
+                        ...(isMobile ? { width: '100%', marginLeft: 0 } : {}),
+                    }}
+                >
+                    <div style={styles.breadcrumbRow}>
+                        {isMobile && (
+                            <button onClick={toggleSidebar} style={styles.mobileMenuButton}>
+                                &#9776;
+                            </button>
+                        )}
+                        <Breadcrumb
+                            breadcrumbItems={breadcrumbItems}
+                            currentPage={currentPage}
+                            searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                        />
+                    </div>
+
+                    <DSACurrentPage currentPage={currentPage} searchQuery={searchQuery} />
                 </div>
             </div>
 
-            {/* Footer */}
             <div style={{ width: '100%', margin: 'auto' }}>
                 <Footer />
             </div>
@@ -53,54 +103,68 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        backgroundColor: '#f3f4f6', // Soft background for a modern look
-        fontFamily: `'Poppins', sans-serif`, // Clean and professional font
+        backgroundColor: '#f3f4f6',
+        fontFamily: `'Poppins', sans-serif`,
     },
-
     navbarContainer: {
         position: 'sticky',
         top: 0,
         width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        margin: 'auto',
-        backgroundColor: '#fff', // Ensure navbar background is visible
-        zIndex: 1000, // Keep it above other content
+        zIndex: 1000,
+        backgroundColor: '#fff',
     },
-
-    breadcrumbContainer: {
-        position: 'sticky',
-        top: '75px', // Adjust according to the height of the navbar
-        width: '100%',
-        margin: '5px auto',
-        marginTop:'',
-        backgroundColor: 'rgba(253, 255, 255, 1)',
-        zIndex: 999, // Ensure breadcrumb is above content but below navbar
-        padding: '5px 0',
-        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Adds a slight shadow for clarity
-    },
-
     mainContent: {
         display: 'flex',
         flex: 1,
         width: '100%',
-        margin: 'auto',
-        marginBottom: '5px',
-        backgroundColor: '#fff', // White content background for focus
-        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)', // Premium shadow effect
-        overflow: 'hidden', // Prevents content overflow
+        backgroundColor: '#fff',
+        overflow: 'hidden',
     },
-
     sidebarContainer: {
-        backgroundColor: '#2c3e50', // Dark sidebar for contrast
+        backgroundColor: '#2c3e50',
         color: '#fff',
+        height: '100vh',
+        overflowY: 'auto',
+        position: 'sticky',
+        top: 0,
     },
-
+    mobileSidebar: {
+        position: 'fixed',
+        top: '140px',
+        left: 0,
+        width: '250px',
+        height: 'calc(100vh - 140px)',
+        overflowY: 'auto',
+        backgroundColor: '#2c3e50',
+        color: '#fff',
+        zIndex: 999,
+    },
     contentContainer: {
         flex: 1,
-        padding: '5px',
-        backgroundColor: '#f9fafc', // Light background for reading content
+        height: 'calc(100vh - 70px)',
         overflowY: 'auto',
+        padding: '10px',
+        backgroundColor: '#f9fafc',
+        transition: 'margin-left 0.3s ease-in-out',
+    },
+    breadcrumbRow: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '10px 15px',
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #e0e0e0',
+        flexWrap: 'wrap',
+        gap: '10px',
+    },
+    mobileMenuButton: {
+        fontSize: '20px',
+        padding: '8px 12px',
+        cursor: 'pointer',
+        backgroundColor: '#2c3e50',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
     },
 };
 
