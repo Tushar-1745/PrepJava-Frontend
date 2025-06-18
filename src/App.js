@@ -33,6 +33,7 @@ import SQLPractice from './components/dbms/mysql/SQLPractice';
 import SQLSubmission from './components/dbms/mysql/SQLSubmission';
 import JobSearchPage from './components/job/JobSearchPage';
 import AbstractionTest from './tests/AbstractionTest';
+import JavaDashboard from './components/java/JavaDashboard';
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
                     <Route path="/sql-submission" element={<SQLSubmission />} />
                     <Route path="/jobsearch" element={<JobSearchPage />} />
                     <Route path="/java/abstraction/test" element={<AbstractionTest />} />
+                    <Route path="/java/javadashboard" element={<JavaDashboard/>}/>
 
                 </Routes>
             </BrowserRouter>
