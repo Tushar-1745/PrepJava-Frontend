@@ -2,30 +2,31 @@ import React from 'react';
 import { FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const Breadcrumb = ({ breadcrumbItems, currentPage, searchQuery, setSearchQuery }) => {
+const Breadcrumb = ({
+  breadcrumbItems,
+  currentPage,
+  searchQuery,
+  setSearchQuery,
+  showSearch = true,
+}) => {
   const navigate = useNavigate();
 
   const handleBreadcrumbClick = (item) => {
-    if (item === 'Home') {
-      navigate('/javapage');
-    } else if (item === 'DBMS') {
-      navigate('/dbmsoverview');
-    } else if (item === 'MySQL') {
-      navigate('/mysql');
-    }
+    if (item === 'Home') navigate('/javapage');
+    else if (item === 'DBMS') navigate('/dbmsoverview');
+    else if (item === 'MySQL') navigate('/mysql');
   };
 
-  // Function to format currentPage into readable placeholder
   const formatPageTitle = (title) => {
-    return title.replace(/([A-Z])/g, ' $1').trim(); // e.g. JavaJDBC => Java JDBC
+    return title.replace(/([A-Z])/g, ' $1').trim(); // JavaJDBC => Java JDBC
   };
 
   return (
-    <div style={styles.container}>
-      {/* Breadcrumb Items */}
-      <div style={styles.breadcrumbs}>
+    <div style={styles.wrapper}>
+      {/* Line 1: Hamburger + Breadcrumb */}
+      <div style={styles.lineOne}>
         {breadcrumbItems.map((item, index) => (
-          <span key={index}>
+          <span key={index} style={styles.breadcrumbItem}>
             <span
               onClick={() => handleBreadcrumbClick(item)}
               style={{
@@ -43,32 +44,42 @@ const Breadcrumb = ({ breadcrumbItems, currentPage, searchQuery, setSearchQuery 
         ))}
       </div>
 
-      {/* Search Box */}
-      <input
-        type="text"
-        placeholder={`Search in ${formatPageTitle(currentPage)}`}
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        style={styles.searchInput}
-      />
+      {/* Line 2: Search box (only visible if showSearch is true) */}
+      {showSearch && (
+        <div style={styles.lineTwo}>
+          <input
+            type="text"
+            placeholder={`Search in ${formatPageTitle(currentPage)}`}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={styles.searchInput}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 const styles = {
-  container: {
+  wrapper: {
+    width: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  lineOne: {
+    display: 'flex',
     flexWrap: 'wrap',
-    gap: '10px',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: '5px 15px',
+    gap: '6px',
+    fontSize: '14px',
+  },
+  lineTwo: {
     width: '100%',
   },
-  breadcrumbs: {
-    flex: 1,
-    minWidth: '200px',
+  breadcrumbItem: {
+    display: 'flex',
+    alignItems: 'center',
   },
   searchInput: {
     padding: '8px 12px',
@@ -76,7 +87,7 @@ const styles = {
     border: '1px solid #ccc',
     borderRadius: '4px',
     outline: 'none',
-    minWidth: '180px',
+    width: '100%',
   },
 };
 

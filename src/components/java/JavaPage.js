@@ -73,18 +73,29 @@ const JavaPage = () => {
                         ...(isMobile ? { width: '100%', marginLeft: 0 } : {}),
                     }}
                 >
-                    {/* Breadcrumb now contains search */}
+                    {/* Hamburger + Breadcrumb + Search Row */}
                     <div style={styles.breadcrumbRow}>
-                        {isMobile && (
-                            <button onClick={toggleSidebar} style={styles.mobileMenuButton}>
-                                &#9776;
-                            </button>
-                        )}
-                        <Breadcrumb
-                            breadcrumbItems={breadcrumbItems}
-                            currentPage={currentPage}
-                            searchQuery={searchQuery}
-                            setSearchQuery={setSearchQuery}
+                        <div style={styles.breadcrumbLeft}>
+                            {isMobile && (
+                                <button onClick={toggleSidebar} style={styles.mobileMenuButton}>
+                                    &#9776;
+                                </button>
+                            )}
+                            <Breadcrumb
+                                breadcrumbItems={breadcrumbItems}
+                                currentPage={currentPage}
+                                searchQuery={searchQuery}
+                                setSearchQuery={setSearchQuery}
+                                showSearch={false}
+                            />
+                        </div>
+
+                        <input
+                            type="text"
+                            placeholder={`Search in ${currentPage.replace(/([A-Z])/g, ' $1').trim()}`}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            style={styles.searchInput}
                         />
                     </div>
 
@@ -158,6 +169,13 @@ const styles = {
         flexWrap: 'wrap',
         gap: '10px',
     },
+    breadcrumbLeft: {
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        flexGrow: 1,
+        gap: '10px',
+    },
     mobileMenuButton: {
         fontSize: '20px',
         padding: '8px 12px',
@@ -166,6 +184,15 @@ const styles = {
         color: 'white',
         border: 'none',
         borderRadius: '4px',
+    },
+    searchInput: {
+        padding: '8px 12px',
+        fontSize: '14px',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        outline: 'none',
+        minWidth: '180px',
+        flexShrink: 0,
     },
 };
 
