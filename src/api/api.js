@@ -189,6 +189,22 @@ export const submitSolvedProblem = async (submissionRequest) => {
     }
 };
 
+export const submitTestScore = async (scoreRequest) => {
+    try {
+        const response = await axios.post(
+            `${API_URL}/score`,  // Your backend score submission endpoint
+            scoreRequest,
+            {
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error while submitting test score:', error.response?.data || error.message);
+        throw error;
+    }
+};
+
 
 export const getSolutionsOfSolvedProblem = async (userId, problemId) => {
     try {
@@ -262,3 +278,14 @@ export const ExecuteSQLQuery = async (query, language='sql') => {
     }
 };
 
+
+export const getScoreByModule = async (userId, module) => {
+    try {
+      const response = await axios.get(`${API_URL}/score/${userId}/${module}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching score:', error);
+      throw error;
+    }
+  };
+  

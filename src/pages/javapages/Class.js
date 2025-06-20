@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Class = () => {
+    const navigate = useNavigate(); 
     const styles = {
         container: {
             padding: '10px 20px',
@@ -36,6 +38,10 @@ const Class = () => {
             position: 'relative',
             marginBottom: '20px',
         },
+    };
+
+    const handleTakeTest = () => {
+        navigate('/class-test');
     };
 
     const renderCodeExample = (code) => (
@@ -187,6 +193,32 @@ public class Main {
         obj.makeSound();
     }
 }`)}
+            
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
+    <button
+        style={{
+            backgroundColor: '#0066ff',
+            color: 'white',
+            padding: '12px 24px',
+            fontSize: '1.1rem',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            transition: 'all 0.3s ease',
+        }}
+        onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#004ecb';
+        }}
+        onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#0066ff';
+        }}
+        onClick={handleTakeTest}
+    >
+        🎯 Take Test on Classes
+    </button>
+</div>
+
 
         </div>
     );
