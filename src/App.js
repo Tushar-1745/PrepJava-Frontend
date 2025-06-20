@@ -36,6 +36,8 @@ import AbstractionTest from './tests/java/AbstractionTest';
 import JavaDashboard from './components/java/JavaDashboard';
 import ClassTest from './tests/java/ClassTest';
 import JavaOverviewTest from './tests/java/JavaOverviewTest';
+import ObjectInJava from './pages/javapages/Object';
+import ObjectTestPage from './tests/java/ObjectTest';
 
 
 function App() {
@@ -78,7 +80,8 @@ function App() {
                     <Route path="/java/javadashboard" element={<JavaDashboard />} />
                     
                     <Route path="/class-test" element={<ClassTest />} />
-                    <Route path="/javaoverview-test" element={<JavaOverviewTest/>}/>
+                    <Route path="/javaoverview-test" element={<JavaOverviewTest />} />
+                    <Route path="/object-test" element={<ObjectTestPage/>}/>
 
                 </Routes>
             </BrowserRouter>
