@@ -75,29 +75,16 @@ const JavaPage = () => {
                 >
                     {/* Hamburger + Breadcrumb + Search Row */}
                     <div style={styles.breadcrumbRow}>
-                        <div style={styles.breadcrumbLeft}>
-                            {isMobile && (
-                                <button onClick={toggleSidebar} style={styles.mobileMenuButton}>
-                                    &#9776;
-                                </button>
-                            )}
-                            <Breadcrumb
-                                breadcrumbItems={breadcrumbItems}
-                                currentPage={currentPage}
-                                searchQuery={searchQuery}
-                                setSearchQuery={setSearchQuery}
-                                showSearch={false}
-                            />
-                        </div>
+  <Breadcrumb
+    breadcrumbItems={breadcrumbItems}
+    currentPage={currentPage}
+    searchQuery={searchQuery}
+    setSearchQuery={setSearchQuery}
+    isMobile={isMobile}
+    toggleSidebar={toggleSidebar}
+  />
+</div>
 
-                        <input
-                            type="text"
-                            placeholder={`Search in ${currentPage.replace(/([A-Z])/g, ' $1').trim()}`}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            style={styles.searchInput}
-                        />
-                    </div>
 
                     <JavaCurrentPage currentPage={currentPage} searchQuery={searchQuery} />
                 </div>

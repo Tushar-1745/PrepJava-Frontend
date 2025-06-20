@@ -7,7 +7,8 @@ const Breadcrumb = ({
   currentPage,
   searchQuery,
   setSearchQuery,
-  showSearch = true,
+  isMobile = false,
+  toggleSidebar,
 }) => {
   const navigate = useNavigate();
 
@@ -18,68 +19,93 @@ const Breadcrumb = ({
   };
 
   const formatPageTitle = (title) => {
-    return title.replace(/([A-Z])/g, ' $1').trim(); // JavaJDBC => Java JDBC
+    return title.replace(/([A-Z])/g, ' $1').trim(); // JavaJDBC → Java JDBC
   };
 
   return (
-    <div style={styles.wrapper}>
-      {/* Line 1: Hamburger + Breadcrumb */}
-      <div style={styles.lineOne}>
-        {breadcrumbItems.map((item, index) => (
-          <span key={index} style={styles.breadcrumbItem}>
-            <span
-              onClick={() => handleBreadcrumbClick(item)}
-              style={{
-                color: index === breadcrumbItems.length - 1 ? '#2c3e50' : '#16a085',
-                fontWeight: index === breadcrumbItems.length - 1 ? 'bold' : 'normal',
-                cursor: 'pointer',
-              }}
-            >
-              {item}
+    <div
+      style={{
+        ...styles.wrapper,
+        flexDirection: isMobile ? 'column' : 'row',
+        alignItems: isMobile ? 'flex-start' : 'center',
+        justifyContent: 'space-between',
+        gap: isMobile ? '8px' : '0',
+      }}
+    >
+      {/* Left: Hamburger + Breadcrumb */}
+      <div style={styles.breadcrumbLine}>
+        {isMobile && (
+          <button onClick={toggleSidebar} style={styles.hamburger}>
+            &#9776;
+          </button>
+        )}
+        <div style={styles.breadcrumbs}>
+          {breadcrumbItems.map((item, index) => (
+            <span key={index} style={styles.breadcrumbItem}>
+              <span
+                onClick={() => handleBreadcrumbClick(item)}
+                style={{
+                  color: index === breadcrumbItems.length - 1 ? '#2c3e50' : '#16a085',
+                  fontWeight: index === breadcrumbItems.length - 1 ? 'bold' : 'normal',
+                  cursor: 'pointer',
+                }}
+              >
+                {item}
+              </span>
+              {index < breadcrumbItems.length - 1 && (
+                <FaChevronRight style={{ margin: '0 5px' }} />
+              )}
             </span>
-            {index < breadcrumbItems.length - 1 && (
-              <FaChevronRight style={{ margin: '0 5px' }} />
-            )}
-          </span>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Line 2: Search box (only visible if showSearch is true) */}
-      {showSearch && (
-        <div style={styles.lineTwo}>
-          <input
-            type="text"
-            placeholder={`Search in ${formatPageTitle(currentPage)}`}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={styles.searchInput}
-          />
-        </div>
-      )}
+      {/* Right: Search */}
+      <input
+        type="text"
+        placeholder={`Search in ${formatPageTitle(currentPage)}`}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={styles.searchInput}
+      />
     </div>
   );
 };
 
 const styles = {
   wrapper: {
+    display: 'flex',
     width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-  },
-  lineOne: {
-    display: 'flex',
+    padding: '1px 15px',
+    backgroundColor: '#fff',
     flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: '6px',
-    fontSize: '14px',
   },
-  lineTwo: {
-    width: '100%',
+  breadcrumbLine: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    flexWrap: 'wrap',
+  },
+  breadcrumbs: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    fontSize: '14px',
+    gap: '5px',
+    color: '#2c3e50',
   },
   breadcrumbItem: {
     display: 'flex',
     alignItems: 'center',
+  },
+  hamburger: {
+    fontSize: '20px',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    backgroundColor: '#2c3e50',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
   },
   searchInput: {
     padding: '8px 12px',
@@ -87,7 +113,8 @@ const styles = {
     border: '1px solid #ccc',
     borderRadius: '4px',
     outline: 'none',
-    width: '100%',
+    minWidth: '180px',
+    flexShrink: 0,
   },
 };
 
