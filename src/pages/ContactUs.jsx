@@ -4,20 +4,30 @@ const ContactUs = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   const styles = {
-    container: {
-      backgroundColor: '#2c3e50',
-      color: '#ecf0f1',
-      padding: '2rem 1rem',
-      maxWidth: '800px',
-      margin: '0 auto',
-      fontFamily: 'Arial, sans-serif',
+    outerContainer: {
+      backgroundColor: '#2c3e50', // Dark blue background
+      minHeight: '100vh',
+      padding: '4rem 1rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+    },
+    card: {
+      backgroundColor: '#f9f9f9', // Light card on top of dark background
+      color: '#2c3e50',
+      padding: '2.5rem 2rem',
+      borderRadius: '12px',
+      width: '100%',
+      maxWidth: '700px',
+      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.2)',
+      fontFamily: 'Poppins, sans-serif',
     },
     header: {
-      fontSize: '2.5rem',
-      fontWeight: 'bold',
+      fontSize: '2.2rem',
+      fontWeight: '600',
       color: '#1abc9c',
       textAlign: 'center',
-      marginBottom: '2rem',
+      marginBottom: '1.5rem',
     },
     form: {
       display: 'flex',
@@ -25,37 +35,41 @@ const ContactUs = () => {
       gap: '1rem',
     },
     input: {
-      padding: '0.75rem',
+      padding: '0.9rem 1rem',
       fontSize: '1rem',
-      borderRadius: '5px',
+      borderRadius: '8px',
       border: '1px solid #ccc',
       outline: 'none',
     },
     textarea: {
-      padding: '0.75rem',
+      padding: '0.9rem 1rem',
       fontSize: '1rem',
-      borderRadius: '5px',
+      borderRadius: '8px',
       border: '1px solid #ccc',
       height: '150px',
       outline: 'none',
+      resize: 'vertical',
     },
     button: {
       backgroundColor: '#1abc9c',
       color: '#fff',
-      padding: '0.75rem',
+      padding: '0.9rem',
       border: 'none',
-      borderRadius: '5px',
+      borderRadius: '8px',
       fontSize: '1rem',
+      fontWeight: '500',
       cursor: 'pointer',
       transition: 'background-color 0.3s ease',
     },
     info: {
       marginTop: '2rem',
       fontSize: '1rem',
+      textAlign: 'center',
+      color: '#34495e',
     },
     link: {
       color: '#1abc9c',
-      textDecoration: 'none',
+      textDecoration: 'underline',
     },
   };
 
@@ -65,46 +79,58 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic (e.g., send to backend or email)
     alert('Thank you! Your message has been sent.');
     setFormData({ name: '', email: '', message: '' });
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>Contact Us</h1>
-      <form style={styles.form} onSubmit={handleSubmit}>
-        <input
-          style={styles.input}
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          style={styles.input}
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <textarea
-          style={styles.textarea}
-          name="message"
-          placeholder="Your Message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit" style={styles.button}>Send Message</button>
-      </form>
-
-      <div style={styles.info}>
-        <p>Or email us directly at <a href="mailto:support@prepjava.com" style={styles.link}>support@prepjava.com</a></p>
+    <div style={styles.outerContainer}>
+      <div style={styles.card}>
+        <h1 style={styles.header}>Contact Us</h1>
+        <form style={styles.form} onSubmit={handleSubmit}>
+          <input
+            style={styles.input}
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+          <input
+            style={styles.input}
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <textarea
+            style={styles.textarea}
+            name="message"
+            placeholder="Your Message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          />
+          <button
+            type="submit"
+            style={styles.button}
+            onMouseOver={(e) => (e.target.style.backgroundColor = '#16a085')}
+            onMouseOut={(e) => (e.target.style.backgroundColor = '#1abc9c')}
+          >
+            Send Message
+          </button>
+        </form>
+        <div style={styles.info}>
+          <p>
+            Or email us directly at{' '}
+            <a href="mailto:support@prepjava.com" style={styles.link}>
+              support@prepjava.com
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

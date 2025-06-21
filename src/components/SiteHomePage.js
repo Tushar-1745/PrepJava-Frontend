@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FaArrowRight, FaBars, FaTimes } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext';
 
-const JavaHomePage = () => {
+const SiteHomePage = () => {
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+  const { loggedIn, loggedInUsername, logoutUser } = useContext(AuthContext);
+  const isAdmin = loggedInUsername === 'tusharmadane729@gmail.com';
 
   const styles = {
     container: {
@@ -84,6 +87,17 @@ const JavaHomePage = () => {
   return (
     <div style={styles.container}>
       <style>{`
+        .link-hover-effect {
+          color: #fff;
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+        .link-hover-effect:hover {
+          color: #61dafb;
+          text-shadow: 0 0 5px #61dafb, 0 0 10px #61dafb;
+        }        
+        
+
         @media (max-width: 768px) {
           .nav-links {
             display: ${isMobileNavOpen ? 'flex' : 'none'};
@@ -122,10 +136,21 @@ const JavaHomePage = () => {
         </div>
 
         <div className="nav-links" style={styles.navLinks}>
-          <a href="#courses" style={styles.navLink}>Courses</a>
-          <a href="#practice" style={styles.navLink}>Practice</a>
-          <a href="#blogs" style={styles.navLink}>Blogs</a>
-          <Link to="/login" style={styles.navLink}>Login</Link>
+          {isAdmin && (
+            <Link to="/admin" style={styles.navLink}>
+              Admin Panel
+            </Link>
+          )}
+          {!loggedIn && (
+            <Link to="/login" style={styles.navLink}>
+              Login
+            </Link>
+          )}
+          {loggedIn && (
+            <span onClick={logoutUser} style={{ ...styles.navLink, cursor: 'pointer' }}>
+              Logout
+            </span>
+          )}
         </div>
       </nav>
 
@@ -201,73 +226,86 @@ const JavaHomePage = () => {
       </section>
 
       <section style={styles.footer}>
-  {/* Top Grid Section */}
-  <div style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '2rem',
-    padding: '1rem 1rem',
-    textAlign: 'left',
-  }}>
-    {/* Explore */}
-    <div>
-      <h4 style={{ color: '#61dafb', marginBottom: '1rem' }}>Explore</h4>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        <li><Link to="/aboutus" style={{ color: '#fff', textDecoration: 'none' }}>About Us</Link></li>
-        <li><Link to="/contact" style={{ color: '#fff', textDecoration: 'none' }}>Contact Us</Link></li>
-        <li><Link to="/terms" style={{ color: '#fff', textDecoration: 'none' }}>Terms & Conditions</Link></li>
-        <li><Link to="/privacy" style={{ color: '#fff', textDecoration: 'none' }}>Privacy Policy</Link></li>
-      </ul>
-    </div>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-around',
+          gap: '2rem',
+          padding: '0.5rem 1rem',
+          textAlign: 'left',
+        }}>
+          {[
+            {
+              title: "Explore",
+              links: [
+                { label: "About Us", path: "/aboutus" },
+                { label: "Contact Us", path: "/contact" },
+                { label: "Terms & Conditions", path: "/terms" },
+                { label: "Privacy Policy", path: "/privacy" },
+              ],
+            },
+            {
+              title: "Learning Paths",
+              links: [
+                { label: "Java", path: "/java/javadashboard" },
+                { label: "DSA", path: "/dsa/intro" },
+                { label: "MySQL", path: "/mysql" },
+                { label: "Spring Boot", path: "/springboot" },
+              ],
+            },
+            {
+              title: "Follow Us",
+              links: [
+                { label: "Facebook", path: "#" },
+                { label: "Instagram", path: "#" },
+                { label: "LinkedIn", path: "#" },
+                { label: "YouTube", path: "#" },
+              ],
+            },
+            {
+              title: "Support",
+              links: [
+                { label: "FAQs", path: "/faq" },
+                { label: "Help Center", path: "/help" },
+                { label: "Report a Bug", path: "/report" },
+              ],
+            },
+          ].map((section, index) => (
+            <div key={index} style={{ marginTop: '0.5rem' }}>
+              <h4 style={{ color: '#61dafb', margin: '0 0 0.5rem' }}>{section.title}</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {section.links.map((link, i) => {
+                  const isExternal = link.path === "#" || link.path.startsWith("http");
+                  return (
+                    <li key={i} style={{ marginBottom: '0.4rem' }}>
+                      {isExternal ? (
+                        <a href={link.path} className="link-hover-effect">
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link to={link.path} className="link-hover-effect">
+                          {link.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
 
-    {/* Learning Paths */}
-    <div>
-      <h4 style={{ color: '#61dafb', marginBottom: '1rem' }}>Learning Paths</h4>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        <li><Link to="/java/javadashboard" style={{ color: '#fff', textDecoration: 'none' }}>Java</Link></li>
-        <li><Link to="/dsa/intro" style={{ color: '#fff', textDecoration: 'none' }}>DSA</Link></li>
-        <li><Link to="/mysql" style={{ color: '#fff', textDecoration: 'none' }}>MySQL</Link></li>
-        <li><Link to="/springboot" style={{ color: '#fff', textDecoration: 'none' }}>Spring Boot</Link></li>
-      </ul>
-    </div>
-
-    {/* Follow Us */}
-    <div>
-      <h4 style={{ color: '#61dafb', marginBottom: '1rem' }}>Follow Us</h4>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        <li><a href="#" style={{ color: '#fff', textDecoration: 'none' }}><i className="fab fa-facebook" style={{ marginRight: '8px' }}></i>Facebook</a></li>
-        <li><a href="#" style={{ color: '#fff', textDecoration: 'none' }}><i className="fab fa-instagram" style={{ marginRight: '8px' }}></i>Instagram</a></li>
-        <li><a href="#" style={{ color: '#fff', textDecoration: 'none' }}><i className="fab fa-linkedin" style={{ marginRight: '8px' }}></i>LinkedIn</a></li>
-        <li><a href="#" style={{ color: '#fff', textDecoration: 'none' }}><i className="fab fa-youtube" style={{ marginRight: '8px' }}></i>YouTube</a></li>
-      </ul>
-    </div>
-
-    {/* Support */}
-    <div>
-      <h4 style={{ color: '#61dafb', marginBottom: '1rem' }}>Support</h4>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        <li><Link to="/faq" style={{ color: '#fff', textDecoration: 'none' }}>FAQs</Link></li>
-        <li><Link to="/help" style={{ color: '#fff', textDecoration: 'none' }}>Help Center</Link></li>
-        <li><Link to="/report" style={{ color: '#fff', textDecoration: 'none' }}>Report a Bug</Link></li>
-      </ul>
-    </div>
-  </div>
-
-  {/* Bottom Bar */}
-  <div style={{
-    borderTop: '1px solid #444',
-    textAlign: 'center',
-    paddingTop: '1rem',
-    fontSize: '0.9rem',
-  }}>
-    <p style={{ margin: 0 }}>© 2024 Prep Java. All Rights Reserved.</p>
-  </div>
-</section>
-
-
-
+        <div style={{
+          borderTop: '1px solid #444',
+          textAlign: 'center',
+          paddingTop: '1rem',
+          fontSize: '0.9rem',
+        }}>
+          <p style={{ margin: 0 }}>© 2024 Prep Java. All Rights Reserved.</p>
+        </div>
+      </section>
     </div>
   );
 };
 
-export default JavaHomePage;
+export default SiteHomePage;

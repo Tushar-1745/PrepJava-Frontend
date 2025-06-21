@@ -37,9 +37,13 @@ import JavaDashboard from './components/java/JavaDashboard';
 import ClassTest from './tests/java/ClassTest';
 import JavaOverviewTest from './tests/java/JavaOverviewTest';
 import ObjectInJava from './pages/javapages/Object';
+import { Outlet } from 'react-router-dom';
 import ObjectTestPage from './tests/java/ObjectTest';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
+import AdminPanel from './components/admin-panel/AdminPanel';
+import AdminDashboard from './components/admin-panel/AdminDashboard';
+import ManageUsers from './components/admin-panel/ManageUsers';
 
 
 function App() {
@@ -52,7 +56,7 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<SiteHomePage />} />
-                    <Route path="/javapage" element={<Javapage/>}/>
+                    <Route path="/javapage" element={<Javapage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/array" element={<Array />} />
@@ -62,17 +66,17 @@ function App() {
                     <Route path="/dsa/problems" element={<DsaProblems />} />
                     <Route path="/dsa/problems/practice" element={<PracticePage />} />
                     <Route path="/profile" element={<ProfilePage />} />
-                    <Route path='/previous-submissions' element={<PreviousSubmissionsPage/>}/>
-                    <Route path="/dbmsoverview" element={<DBMSOverviewPage/>}/>
-                    <Route path="/mysql" element={<MySQLPage/>}/>
-                    <Route path="/mongodb" element={<MongoDBPage/>}/>
+                    <Route path='/previous-submissions' element={<PreviousSubmissionsPage />} />
+                    <Route path="/dbmsoverview" element={<DBMSOverviewPage />} />
+                    <Route path="/mysql" element={<MySQLPage />} />
+                    <Route path="/mongodb" element={<MongoDBPage />} />
                     <Route path='/hibernate' element={<HibernatePage />} />
-                    <Route path='/springboot' element={<SpringbootPage/>}/>
-                    <Route path='/interview' element={<InterviewHomePage/>}/>
-                    <Route path='/mock-interview' element={<MockInterviewQuestionsPage/>}/>
-                    <Route path='/mock-interview-practice' element={<MockInterviewPracticePage/>}/>
-                    <Route path='/coding-challenge' element={<CodingChallengePractice/>}/>
-                    <Route path='/solutions' element={<ReverseString/>}/>
+                    <Route path='/springboot' element={<SpringbootPage />} />
+                    <Route path='/interview' element={<InterviewHomePage />} />
+                    <Route path='/mock-interview' element={<MockInterviewQuestionsPage />} />
+                    <Route path='/mock-interview-practice' element={<MockInterviewPracticePage />} />
+                    <Route path='/coding-challenge' element={<CodingChallengePractice />} />
+                    <Route path='/solutions' element={<ReverseString />} />
                     <Route path='/edit-profile' element={<EditProfile />} />
                     <Route path='/sql-questions' element={<SQLPracticeQuestions />} />
                     <Route path='/sql-practice' element={<SQLPractice />} />
@@ -80,13 +84,19 @@ function App() {
                     <Route path="/jobsearch" element={<JobSearchPage />} />
                     <Route path="/java/abstraction/test" element={<AbstractionTest />} />
                     <Route path="/java/javadashboard" element={<JavaDashboard />} />
-                    
+
                     <Route path="/class-test" element={<ClassTest />} />
                     <Route path="/javaoverview-test" element={<JavaOverviewTest />} />
                     <Route path="/object-test" element={<ObjectTestPage />} />
-                    
+
                     <Route path='/aboutus' element={<AboutUs />} />
-                    <Route path='/contact' element={<ContactUs/>}/>
+                    <Route path='/contact' element={<ContactUs />} />
+
+                    <Route path="admin" element={<AdminPanel />}>
+                        <Route index element={<AdminDashboard />} /> {/* 👈 This is the fix */}
+                        <Route path="dashboard" element={<AdminDashboard />} />
+                        <Route path="users" element={<ManageUsers />} />
+                    </Route>
 
                 </Routes>
             </BrowserRouter>
