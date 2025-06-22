@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { FaArrowRight, FaBars, FaTimes } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 
 const SiteHomePage = () => {
@@ -10,8 +10,7 @@ const SiteHomePage = () => {
     AOS.init({ duration: 1000 });
   }, []);
 
-  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
-  const { loggedIn, loggedInUsername, logoutUser } = useContext(AuthContext);
+  const { loggedInUsername } = useContext(AuthContext);
   const isAdmin = loggedInUsername === 'tusharmadane729@gmail.com';
 
   const styles = {
@@ -98,19 +97,6 @@ const SiteHomePage = () => {
         }        
         
 
-        @media (max-width: 768px) {
-          .nav-links {
-            display: ${isMobileNavOpen ? 'flex' : 'none'};
-            flex-direction: column;
-            width: 100%;
-            background-color: #282c34;
-            padding: 1rem 0;
-          }
-          .mobile-menu-icon {
-            display: block !important;
-          }
-        }
-
         @media (max-width: 1024px) {
           .responsive-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -127,21 +113,14 @@ const SiteHomePage = () => {
       <nav style={styles.navbar}>
         <h1 style={styles.logo}>Prep Java</h1>
 
-        <div
-          className="mobile-menu-icon"
-          style={styles.mobileMenuIcon}
-          onClick={() => setMobileNavOpen(!isMobileNavOpen)}
-        >
-          {isMobileNavOpen ? <FaTimes /> : <FaBars />}
-        </div>
-
-        <div className="nav-links" style={styles.navLinks}>
+        <div style={styles.navLinks}>
           {isAdmin && (
-            <Link to="/admin" style={styles.navLink}>
+            <Link to="/admin" style={styles.navLink} className="link-hover-effect">
               Admin Panel
             </Link>
           )}
         </div>
+
       </nav>
 
       <section style={styles.heroSection}>
