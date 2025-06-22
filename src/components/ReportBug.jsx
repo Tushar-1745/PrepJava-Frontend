@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { reportBug } from '../api/contactUsApi';
+import { AuthContext } from '../context/AuthContext';
 
 const ReportBug = () => {
   const [formData, setFormData] = useState({
     email: '',
-    issue: ''
+    description: ''
   });
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+
+  const { loggedIn, loggedInUsername } = useContext(AuthContext); // ✅
 
   const styles = {
     container: {
@@ -70,15 +73,28 @@ const ReportBug = () => {
     setSuccess('');
     setError('');
 
-    if (formData.issue.trim().length < 10) {
+    if (formData.description.trim().length < 10) {
       setError('Please provide a more detailed bug description.');
       return;
     }
 
+    // ✅ Determine final email to send
+    const finalEmail =
+      formData.email.trim() !== ''
+        ? formData.email
+        : loggedIn
+        ? loggedInUsername
+        : '';
+
+    const bugData = {
+      email: finalEmail !== '' ? finalEmail : null,
+      description: formData.description
+    };
+
     try {
-      await reportBug(formData);
+      await reportBug(bugData);
       setSuccess('Thank you! Your bug report has been submitted.');
-      setFormData({ email: '', issue: '' });
+      setFormData({ email: '', description: '' });
     } catch (err) {
       console.error(err);
       setError('Failed to submit bug report. Please try again.');
@@ -99,9 +115,9 @@ const ReportBug = () => {
         />
         <textarea
           style={styles.textarea}
-          name="issue"
+          name="description"
           placeholder="Describe the issue you're facing..."
-          value={formData.issue}
+          value={formData.description}
           onChange={handleChange}
           required
         />

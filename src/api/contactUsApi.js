@@ -14,6 +14,6 @@ export const submitContactMessage = async (formData) => {
 };
   
 export const reportBug = async (bugData) => {
-  const res = await axios.post(`${API_BASE_URL}/report`, bugData);
+  const res = await axios.post(`${API_BASE_URL}/bug/report`, bugData);
   return res.data;
 };
