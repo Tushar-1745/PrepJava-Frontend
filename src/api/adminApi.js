@@ -34,19 +34,11 @@ export const getUnseenMessageCount = async () => {
   return response.data; // ✅ Axios stores response data here
 };
 
-export const markMessageAsSeen = async (messageId) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/admin/messages/mark-seen`, messageId, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error marking message as seen:', error);
-    throw error;
-  }
+export const markMessageAsSeen = async (id) => {
+  const res = await axios.put(`${API_BASE_URL}/admin/messages/${id}/seen`);
+  return res.data;
 };
+
 
 export const markMessageAsResponded = async (id) => {
   try {
@@ -59,7 +51,7 @@ export const markMessageAsResponded = async (id) => {
 
 export const deleteContactMessage = async (id) => {
   try {
-    const res = await axios.delete(`${API_BASE_URL}/admin/messages/${id}`);
+    const res = await axios.delete(`${API_BASE_URL}/admin/messages/delete/${id}`);
     return res.data; // this will be the message string from the backend
   } catch (err) {
     throw new Error('Failed to delete message');
