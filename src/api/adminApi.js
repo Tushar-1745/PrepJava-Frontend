@@ -48,6 +48,25 @@ export const markMessageAsSeen = async (messageId) => {
   }
 };
 
+export const markMessageAsResponded = async (id) => {
+  try {
+    const res = await axios.put(`${API_BASE_URL}/admin/messages/${id}/responded`);
+    return res.data; // e.g., "Message marked as responded."
+  } catch (err) {
+    throw new Error('Failed to mark message as responded');
+  }
+};
+
+export const deleteContactMessage = async (id) => {
+  try {
+    const res = await axios.delete(`${API_BASE_URL}/admin/messages/${id}`);
+    return res.data; // this will be the message string from the backend
+  } catch (err) {
+    throw new Error('Failed to delete message');
+  }
+};
+
+
 export const fetchBugReports = async () => {
   const response = await axios.get(`${API_BASE_URL}/admin/bug/allbugs`);
   console.log("bugs are", response)
