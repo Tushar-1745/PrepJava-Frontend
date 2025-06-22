@@ -44,6 +44,7 @@ import ContactUs from './pages/ContactUs';
 import AdminPanel from './components/admin-panel/AdminPanel';
 import AdminDashboard from './components/admin-panel/AdminDashboard';
 import ManageUsers from './components/admin-panel/ManageUsers';
+import Messages from './components/admin-panel/Messages';
 
 
 function App() {
@@ -96,6 +97,7 @@ function App() {
                         <Route index element={<AdminDashboard />} /> {/* 👈 This is the fix */}
                         <Route path="dashboard" element={<AdminDashboard />} />
                         <Route path="users" element={<ManageUsers />} />
+                        <Route path="messages" element={<Messages/>}/>
                     </Route>
 
                 </Routes>

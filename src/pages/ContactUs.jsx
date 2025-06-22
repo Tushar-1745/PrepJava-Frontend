@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { submitContactMessage } from '../api/contactUsApi';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const styles = {
     outerContainer: {
-      backgroundColor: '#2c3e50', // Dark blue background
+      backgroundColor: '#2c3e50',
       minHeight: '100vh',
       padding: '4rem 1rem',
       display: 'flex',
@@ -13,7 +17,7 @@ const ContactUs = () => {
       alignItems: 'flex-start',
     },
     card: {
-      backgroundColor: '#f9f9f9', // Light card on top of dark background
+      backgroundColor: '#f9f9f9',
       color: '#2c3e50',
       padding: '2.5rem 2rem',
       borderRadius: '12px',
@@ -71,16 +75,40 @@ const ContactUs = () => {
       color: '#1abc9c',
       textDecoration: 'underline',
     },
+    success: {
+      marginTop: '1rem',
+      color: '#27ae60',
+      textAlign: 'center',
+      fontWeight: '500',
+    },
+    error: {
+      marginTop: '1rem',
+      color: '#e74c3c',
+      textAlign: 'center',
+      fontWeight: '500',
+    },
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setSubmitted(false);
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Thank you! Your message has been sent.');
-    setFormData({ name: '', email: '', message: '' });
+    setLoading(true);
+    setSubmitted(false);
+    setError('');
+    try {
+      await submitContactMessage(formData);
+      setFormData({ name: '', email: '', message: '' });
+      setSubmitted(true);
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -117,12 +145,17 @@ const ContactUs = () => {
           <button
             type="submit"
             style={styles.button}
+            disabled={loading}
             onMouseOver={(e) => (e.target.style.backgroundColor = '#16a085')}
             onMouseOut={(e) => (e.target.style.backgroundColor = '#1abc9c')}
           >
-            Send Message
+            {loading ? 'Sending...' : 'Send Message'}
           </button>
         </form>
+
+        {submitted && <div style={styles.success}>Thank you! Your message has been sent.</div>}
+        {error && <div style={styles.error}>{error}</div>}
+
         <div style={styles.info}>
           <p>
             Or email us directly at{' '}

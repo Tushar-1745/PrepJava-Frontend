@@ -17,3 +17,34 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+export const fetchContactMessages = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/admin/messages`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching contact messages:', error);
+    throw error;
+  }
+};
+
+export const getUnseenMessageCount = async () => {
+  const response = await axios.get(`${API_BASE_URL}/admin/messages/unseenmessages-count`);
+  console.log("unseen messages", response)
+  return response.data; // ✅ Axios stores response data here
+};
+
+export const markMessageAsSeen = async (messageId) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/admin/messages/mark-seen`, messageId, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error marking message as seen:', error);
+    throw error;
+  }
+};
+
