@@ -45,6 +45,12 @@ import AdminPanel from './components/admin-panel/AdminPanel';
 import AdminDashboard from './components/admin-panel/AdminDashboard';
 import ManageUsers from './components/admin-panel/ManageUsers';
 import Messages from './components/admin-panel/Messages';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsAndConditions from './components/TermsandConditions';
+import FAQ from './components/FAQ';
+import HelpCenter from './components/HelpCenter';
+import ReportBug from './components/ReportBug';
+import BugReports from './components/admin-panel/BugReports';
 
 
 function App() {
@@ -92,12 +98,19 @@ function App() {
 
                     <Route path='/aboutus' element={<AboutUs />} />
                     <Route path='/contact' element={<ContactUs />} />
+                    <Route path="/terms" element={<TermsAndConditions />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path='/faq' element={<FAQ />} />
+                    <Route path="/help" element={<HelpCenter />} />
+                    <Route path='/report-bug' element={<ReportBug/>}/>
+
 
                     <Route path="admin" element={<AdminPanel />}>
                         <Route index element={<AdminDashboard />} /> {/* 👈 This is the fix */}
                         <Route path="dashboard" element={<AdminDashboard />} />
                         <Route path="users" element={<ManageUsers />} />
-                        <Route path="messages" element={<Messages/>}/>
+                        <Route path="messages" element={<Messages />} />
+                        <Route path='bugs' element={<BugReports/>}/>
                     </Route>
 
                 </Routes>

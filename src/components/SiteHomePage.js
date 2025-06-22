@@ -141,16 +141,6 @@ const SiteHomePage = () => {
               Admin Panel
             </Link>
           )}
-          {!loggedIn && (
-            <Link to="/login" style={styles.navLink}>
-              Login
-            </Link>
-          )}
-          {loggedIn && (
-            <span onClick={logoutUser} style={{ ...styles.navLink, cursor: 'pointer' }}>
-              Logout
-            </span>
-          )}
         </div>
       </nav>
 
@@ -267,7 +257,7 @@ const SiteHomePage = () => {
               links: [
                 { label: "FAQs", path: "/faq" },
                 { label: "Help Center", path: "/help" },
-                { label: "Report a Bug", path: "/report" },
+                { label: "Report a Bug", path: "/report-bug" },
               ],
             },
           ].map((section, index) => (

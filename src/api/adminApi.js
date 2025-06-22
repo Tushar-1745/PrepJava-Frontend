@@ -48,3 +48,9 @@ export const markMessageAsSeen = async (messageId) => {
   }
 };
 
+export const fetchBugReports = async () => {
+  const response = await axios.get(`${API_BASE_URL}/admin/bug-reports`);
+  return response.data;
+};
+
+

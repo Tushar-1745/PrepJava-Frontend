@@ -11,4 +11,9 @@ export const submitContactMessage = async (formData) => {
       console.error('Failed to submit contact message:', error);
       throw error;
     }
-  };
+};
+  
+export const reportBug = async (bugData) => {
+  const res = await axios.post(`${API_BASE_URL}/report`, bugData);
+  return res.data;
+};

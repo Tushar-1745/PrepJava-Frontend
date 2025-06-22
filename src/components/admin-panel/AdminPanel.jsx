@@ -175,6 +175,13 @@ const AdminPanel = () => {
           {unseenCount > 0 && <span style={styles.badge}>{unseenCount}</span>}
         </Link>
 
+        <Link to="/admin/bugs" style={{ ...styles.link, ...(isActive('/admin/bugs') && styles.activeLink) }}>
+          <div style={styles.linkContent}>
+            <FaEnvelope /> Bug Reports
+          </div>
+          {unseenCount > 0 && <span style={styles.badge}>{unseenCount}</span>}
+        </Link>
+
         <Link to="/" style={styles.link}>
           <div style={styles.linkContent}>
             <FaSignOutAlt /> Exit Admin
