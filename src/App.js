@@ -51,6 +51,7 @@ import FAQ from './components/FAQ';
 import HelpCenter from './components/HelpCenter';
 import ReportBug from './components/ReportBug';
 import BugReports from './components/admin-panel/BugReports';
+import ComingSoonPage from './pages/ComingSoonPage';
 
 
 function App() {
@@ -69,16 +70,16 @@ function App() {
                     <Route path="/array" element={<Array />} />
                     <Route path="/stack" element={<Stack />} />
                     <Route path="/projects" element={<ProjectsPage />} />
-                    <Route path="/dsa/intro" element={<DsaPage />} />
+                    <Route path="/dsa/intro" element={<ComingSoonPage />} />
                     <Route path="/dsa/problems" element={<DsaProblems />} />
                     <Route path="/dsa/problems/practice" element={<PracticePage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path='/previous-submissions' element={<PreviousSubmissionsPage />} />
-                    <Route path="/dbmsoverview" element={<DBMSOverviewPage />} />
-                    <Route path="/mysql" element={<MySQLPage />} />
-                    <Route path="/mongodb" element={<MongoDBPage />} />
-                    <Route path='/hibernate' element={<HibernatePage />} />
-                    <Route path='/springboot' element={<SpringbootPage />} />
+                    <Route path="/dbmsoverview" element={<ComingSoonPage />} />
+                    <Route path="/mysql" element={<ComingSoonPage />} />
+                    <Route path="/mongodb" element={<ComingSoonPage />} />
+                    <Route path='/hibernate' element={<ComingSoonPage />} />
+                    <Route path='/springboot' element={<ComingSoonPage />} />
                     <Route path='/interview' element={<InterviewHomePage />} />
                     <Route path='/mock-interview' element={<MockInterviewQuestionsPage />} />
                     <Route path='/mock-interview-practice' element={<MockInterviewPracticePage />} />
