@@ -1,3 +1,173 @@
+
+import React from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  Grid,
+  Container,
+  Card,
+  CardContent,
+  CardActions,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+function InterviewHomePage() {
+  const navigate = useNavigate();
+
+  const theme = {
+    background: "#ecf0f3",
+    primaryDark: "#2c3e50",
+    primaryLight: "#34495e",
+    accent: "#00bfa6",
+    accentLight: "#26c6da",
+    card: "#ffffff",
+    text: "#000000",
+  };
+
+  return (
+    <Box sx={{ backgroundColor: theme.background, minHeight: "100vh", color: theme.text }}>
+      <Container maxWidth="xl" sx={{ py: 2 }}>
+        {/* Hero + Progress Section */}
+        <Box
+          sx={{
+            backgroundColor: theme.primaryDark,
+            p: { xs: 3, sm: 4 },
+            color: "#fff",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h4" gutterBottom>
+            Ace Your Java Interviews
+          </Typography>
+          <Typography variant="subtitle1" sx={{ mb: 2 }}>
+            Crack technical and behavioral interviews with confidence.
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: theme.accent, '&:hover': { backgroundColor: theme.accentLight } }}
+            size="large"
+            onClick={() => navigate("/mock-interview")}
+          >
+            Start Preparing
+          </Button>
+
+          {/* Progress Tracker */}
+          <Grid container spacing={2} justifyContent="center" sx={{ mt: 3 }}>
+            {[
+              { label: "Total Topics Covered", value: 18 },
+              { label: "Mock Interviews Done", value: 6 },
+              { label: "Challenges Solved", value: 45 },
+            ].map(({ label, value }, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card sx={{ p: 3, backgroundColor: theme.primaryLight, color: "white", borderRadius: 2 }}>
+                  <Typography variant="subtitle1" gutterBottom>{label}</Typography>
+                  <Typography variant="h5">{value}</Typography>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        {/* Features Section */}
+        <Box sx={{ mt: .1, backgroundColor: theme.primaryDark,  p: { xs: 3, sm: 4 } }}>
+          <Typography variant="h5" textAlign="center" gutterBottom sx={{ color: "white" }}>
+            Explore Our Tools
+          </Typography>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            {[{
+              title: "Mock Interviews",
+              desc: "Simulate real interview scenarios with feedback.",
+              action: "Start Now",
+              route: "/mock-interview",
+            }, {
+              title: "Coding Challenges",
+              desc: "Solve Java problems to sharpen your skills.",
+              action: "Practice",
+              route: "/coding-challenge",
+            }, {
+              title: "Behavioral Questions",
+              desc: "Prepare for HR rounds with curated content.",
+              action: "Explore",
+              route: "",
+            }, {
+              title: "SQL Practice",
+              desc: "Improve your DB skills with SQL problems.",
+              action: "Try Now",
+              route: "/sql-questions",
+            }].map(({ title, desc, action, route }, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card
+                  sx={{
+                    backgroundColor: theme.card,
+                    border: `2px solid ${theme.accent}`,
+                    borderRadius: 2,
+                    boxShadow: 1,
+                    height: "100%",
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="h6" sx={{ color: theme.text }} gutterBottom>
+                      {title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: theme.text }}>
+                      {desc}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      sx={{ borderColor: theme.accent, color: theme.accent, '&:hover': { backgroundColor: theme.accentLight, color: '#fff' } }}
+                      onClick={() => route && navigate(route)}
+                    >
+                      {action}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        {/* Why PrepJava Section */}
+        <Box sx={{ mt: 0.1, backgroundColor: theme.primaryLight, p: { xs: 3, sm: 4 }, color: "white" }}>
+          <Typography variant="h5" textAlign="center" gutterBottom>
+            Why PrepJava?
+          </Typography>
+          <Typography variant="body1" textAlign="center" sx={{ maxWidth: 800, mx: "auto" }}>
+            PrepJava brings together curated content, interactive practice tools, and AI-powered feedback to ensure you’re ready for your next technical interview.
+          </Typography>
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            {[
+              "Personalized Prep",
+              "Expert-Curated Content",
+              "AI Feedback"
+            ].map((label, i) => (
+              <Grid item xs={12} md={4} key={i}>
+                <Card sx={{ p: 3, backgroundColor: theme.card, border: `1px solid ${theme.accent}` }}>
+                  <Typography variant="h6" gutterBottom>{label}</Typography>
+                  <Typography variant="body2" color={theme.text}>
+                    {i === 0
+                      ? "Track your progress, focus on weaknesses, and grow at your own pace."
+                      : i === 1
+                      ? "Get access to questions and tips collected from real interview experiences."
+                      : "Instant insights on your answers help you identify and fix mistakes in real time."}
+                  </Typography>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Container>
+    </Box>
+  );
+}
+
+export default InterviewHomePage;
+
+
+
 // import React from "react";
 // import {
 //   Box,
@@ -141,169 +311,3 @@
 // }
 
 // export default InterviewHomePage;
-
-import React from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Grid,
-  Container,
-  Card,
-  CardContent,
-  CardActions,
-  Divider,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-
-function InterviewHomePage() {
-  const navigate = useNavigate();
-
-  // Enhanced theme with additional blue-gray content background and accent highlights
-  const theme = {
-    background: "#f5f7fa",
-    gradient: "linear-gradient(135deg, #f5f7fa, #e8edf2)",
-    card: "#ffffff",
-    accent: "#00bfa6",
-    accentLight: "#26c6da",
-    text: "#000000",
-    blueTint: "#e3ecf3",
-    blueSection: "#dce6f1",
-  };
-
-  return (
-    <Box sx={{ background: theme.gradient, minHeight: "100vh", color: theme.text }}>
-      {/* Hero Section */}
-      <Box
-        sx={{
-          background: `linear-gradient(135deg, #d9e9f2, ${theme.blueTint})`,
-          color: theme.text,
-          py: 6,
-          textAlign: "center",
-        }}
-      >
-        <Container>
-          <Typography variant="h3" gutterBottom>
-            Ace Your Java Interviews
-          </Typography>
-          <Typography variant="h6" sx={{ mb: 3 }}>
-            Crack technical and behavioral interviews with confidence.
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: theme.accent, color: "#fff", '&:hover': { backgroundColor: theme.accentLight } }}
-            size="large"
-            onClick={() => navigate("/mock-interview")}
-          >
-            Start Preparing
-          </Button>
-        </Container>
-      </Box>
-
-      {/* Features Section */}
-      <Container sx={{ py: 6, backgroundColor: theme.blueTint, borderRadius: 3 }}>
-        <Typography
-          variant="h4"
-          textAlign="center"
-          sx={{ color: theme.text }}
-          gutterBottom
-        >
-          Features
-        </Typography>
-        <Grid container spacing={4} sx={{ mt: 2 }}>
-          {[
-            {
-              title: "Mock Interviews",
-              desc: "Simulate real interview scenarios with feedback.",
-              action: "Start Now",
-              route: "/mock-interview",
-            },
-            {
-              title: "Coding Challenges",
-              desc: "Solve Java problems to sharpen your skills.",
-              action: "Practice",
-              route: "/coding-challenge",
-            },
-            {
-              title: "Behavioral Questions",
-              desc: "Prepare for HR rounds with curated content.",
-              action: "Explore",
-              route: "",
-            },
-            {
-              title: "SQL Practice",
-              desc: "Improve your DB skills with SQL problems.",
-              action: "Try Now",
-              route: "/sql-questions",
-            },
-          ].map(({ title, desc, action, route }, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card
-                sx={{
-                  backgroundColor: theme.card,
-                  border: `2px solid ${theme.accent}`,
-                  borderRadius: 2,
-                  boxShadow: 1,
-                  height: "100%",
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h6" sx={{ color: theme.text }} gutterBottom>
-                    {title}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: theme.text }}>
-                    {desc}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    sx={{ borderColor: theme.accent, color: theme.accent, '&:hover': { backgroundColor: theme.accentLight, color: '#fff' } }}
-                    onClick={() => route && navigate(route)}
-                  >
-                    {action}
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-
-      {/* Additional Section */}
-      <Box sx={{ py: 6, backgroundColor: theme.blueSection }}>
-        <Container>
-          <Typography variant="h4" textAlign="center" gutterBottom>
-            Why PrepJava?
-          </Typography>
-          <Typography variant="body1" textAlign="center" sx={{ maxWidth: 800, mx: "auto", color: theme.text }}>
-            PrepJava brings together curated content, interactive practice tools, and AI-powered feedback to ensure you’re ready for your next technical interview. Whether you're a beginner or advanced learner, we tailor resources to suit your journey.
-          </Typography>
-          <Grid container spacing={3} sx={{ mt: 4 }}>
-            <Grid item xs={12} md={4}>
-              <Card sx={{ p: 3, backgroundColor: theme.card, border: `1px solid ${theme.accent}` }}>
-                <Typography variant="h6" gutterBottom>Personalized Prep</Typography>
-                <Typography variant="body2">Track your progress, focus on weaknesses, and grow at your own pace.</Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Card sx={{ p: 3, backgroundColor: theme.card, border: `1px solid ${theme.accent}` }}>
-                <Typography variant="h6" gutterBottom>Expert-Curated Content</Typography>
-                <Typography variant="body2">Get access to questions and tips collected from real interview experiences.</Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Card sx={{ p: 3, backgroundColor: theme.card, border: `1px solid ${theme.accent}` }}>
-                <Typography variant="h6" gutterBottom>AI Feedback</Typography>
-                <Typography variant="body2">Instant insights on your answers help you identify and fix mistakes in real time.</Typography>
-              </Card>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-    </Box>
-  );
-}
-
-export default InterviewHomePage;
