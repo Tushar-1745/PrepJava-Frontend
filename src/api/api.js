@@ -170,6 +170,14 @@ export const updateUserProfile = async (userId, updatedUserData) => {
 };
 
 
+export const sendEmailVerification = async (email) => {
+    const response = await axios.post(`${API_URL}/send-verification-email`, { email });
+    console.log("response for email verification is", response);
+    return response.data;
+};
+
+
+
 
 
 

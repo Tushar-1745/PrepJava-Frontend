@@ -75,15 +75,15 @@ const JavaPage = () => {
                 >
                     {/* Hamburger + Breadcrumb + Search Row */}
                     <div style={styles.breadcrumbRow}>
-  <Breadcrumb
-    breadcrumbItems={breadcrumbItems}
-    currentPage={currentPage}
-    searchQuery={searchQuery}
-    setSearchQuery={setSearchQuery}
-    isMobile={isMobile}
-    toggleSidebar={toggleSidebar}
-  />
-</div>
+                        <Breadcrumb
+                            breadcrumbItems={breadcrumbItems}
+                            currentPage={currentPage}
+                            searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                            isMobile={isMobile}
+                            toggleSidebar={toggleSidebar}
+                        />
+                    </div>
 
 
                     <JavaCurrentPage currentPage={currentPage} searchQuery={searchQuery} />

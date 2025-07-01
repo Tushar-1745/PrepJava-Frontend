@@ -25,6 +25,23 @@ const JavaOverviewPage = () => {
   const scoredMarks = scoreData?.score ?? null;
   const totalMarks = scoreData?.total ?? null;
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const contentSections = [
+    { title: 'What is Java?', content: 'Java is a powerful, versatile...' },
+    { title: 'Key Features', content: 'Simple, Object-Oriented, WORA...' },
+    { title: 'Java Architecture', content: 'JVM, JRE, bytecode...' },
+    // Add more sections here
+  ];
+  
+  // Filtered by search
+  const filteredSections = contentSections.filter(
+    section =>
+      section.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      section.content.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
+
   const getScoreColor = (scored) => {
     if (scored >= 9) return '#6fdc8c';     // Light green
     if (scored >= 6) return '#f4a742';     // Soft orange
@@ -111,7 +128,7 @@ const JavaOverviewPage = () => {
       marginBottom: '10px',
     },
     takeTestButton: {
-      backgroundColor: '#0066ff',
+      backgroundColor: '#34495e', // Dark blue-gray matching navbar/sidebar
       color: 'white',
       padding: '12px 24px',
       fontSize: '1.1rem',
@@ -126,29 +143,29 @@ const JavaOverviewPage = () => {
   return (
     <div style={styles.container}>
       <div style={styles.headerContainer}>
-  <h1 style={styles.header}>Java Overview</h1>
-  {scoredMarks !== null && totalMarks !== null && (
-    <div
-      style={{
-        width: '30px',
-        height: '30px',
-        marginLeft: '12px',
-        marginTop: '-6px', // Push slightly upward
-        borderRadius: '50%',
-        border: `2px solid ${getScoreColor(scoredMarks)}`,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: getScoreColor(scoredMarks),
-        fontWeight: 'bold',
-        fontSize: '1rem',
-      }}
-      title={`Test taken. Score: ${scoredMarks}/${totalMarks}`}
-    >
-      ✓
-    </div>
-  )}
-</div>
+        <h1 style={styles.header}>Java Overview</h1>
+        {scoredMarks !== null && totalMarks !== null && (
+          <div
+            style={{
+              width: '30px',
+              height: '30px',
+              marginLeft: '12px',
+              marginTop: '-6px', // Push slightly upward
+              borderRadius: '50%',
+              border: `2px solid ${getScoreColor(scoredMarks)}`,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: getScoreColor(scoredMarks),
+              fontWeight: 'bold',
+              fontSize: '1rem',
+            }}
+            title={`Test taken. Score: ${scoredMarks}/${totalMarks}`}
+          >
+            ✓
+          </div>
+        )}
+      </div>
 
 
 
@@ -186,10 +203,36 @@ const JavaOverviewPage = () => {
 }`}
       </pre>
 
+      <h2 style={styles.sectionHeader}>Java Architecture</h2>
+      <p style={styles.paragraph}>
+        Java programs are compiled into bytecode by the Java Compiler, which runs on the Java Virtual Machine (JVM).
+        This architecture enables Java's "Write Once, Run Anywhere" capability.
+      </p>
+
+      <h2 style={styles.sectionHeader}>How Java Code Runs</h2>
+      <ol style={styles.list}>
+        <li style={styles.listItem}>Java code (.java) is written by the developer.</li>
+        <li style={styles.listItem}>The compiler converts it to bytecode (.class).</li>
+        <li style={styles.listItem}>The JVM interprets or JIT-compiles the bytecode to native machine code.</li>
+        <li style={styles.listItem}>The program executes on the host machine.</li>
+      </ol>
+
+      <h2 style={styles.sectionHeader}>Where is Java Used?</h2>
+      <ul style={styles.list}>
+        <li style={styles.listItem}>Enterprise Applications (e.g., Spring Boot)</li>
+        <li style={styles.listItem}>Android App Development</li>
+        <li style={styles.listItem}>Web Applications</li>
+        <li style={styles.listItem}>Big Data (e.g., Hadoop)</li>
+        <li style={styles.listItem}>Cloud-native Microservices</li>
+      </ul>
+
+
+
       <button
         style={styles.takeTestButton}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#004ecb')}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#0066ff')}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#2c3e50')}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#34495e')}
+
         onClick={handleTakeTest}
       >
         🎯 Take Test on Java Overview

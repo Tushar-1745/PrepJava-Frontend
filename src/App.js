@@ -52,6 +52,8 @@ import HelpCenter from './components/HelpCenter';
 import ReportBug from './components/ReportBug';
 import BugReports from './components/admin-panel/BugReports';
 import ComingSoonPage from './pages/ComingSoonPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 
 function App() {
@@ -65,8 +67,12 @@ function App() {
                 <Routes>
                     <Route path="/" element={<SiteHomePage />} />
                     <Route path="/javapage" element={<Javapage />} />
+
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    <Route path="/verify-email-token" element={<VerifyEmailPage/>} />
+
                     <Route path="/array" element={<Array />} />
                     <Route path="/stack" element={<Stack />} />
                     <Route path="/projects" element={<ProjectsPage />} />

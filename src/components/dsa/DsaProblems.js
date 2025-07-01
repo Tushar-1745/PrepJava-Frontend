@@ -6,162 +6,304 @@ import { AuthContext } from '../../context/AuthContext.js';
 
 const styles = {
     pageContainer: {
-        margin: 'auto',
-        padding: '5px 20px',
-        fontFamily: "'Poppins', sans-serif",
-        display: 'flex',
-        gap: '20px',
+      margin: 'auto',
+      padding: '5px 20px',
+      fontFamily: "'Poppins', sans-serif",
+      display: 'flex',
+      gap: '20px',
+      backgroundColor: '#f4f6f9',
     },
     sidebar: {
-        maxWidth: '250px',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '10px',
-        padding: '20px',
-        flex: '0 0 25%',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      maxWidth: '250px',
+      backgroundColor: '#34495e',
+      borderRadius: '10px',
+      padding: '20px',
+      flex: '0 0 25%',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      color: '#ffffff',
     },
     sidebarHeader: {
-        fontSize: '20px',
-        fontWeight: 'bold',
-        marginBottom: '10px',
-        color: '#333',
+      fontSize: '20px',
+      fontWeight: 'bold',
+      marginBottom: '10px',
+      color: '#ffffff',
     },
     statsBox: {
-        marginBottom: '20px',
-        padding: '15px',
-        borderRadius: '8px',
-        background: 'linear-gradient(135deg, #007BFF, #5A9BFF)',
-        color: '#fff',
-        textAlign: 'center',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      marginBottom: '20px',
+      padding: '15px',
+      borderRadius: '8px',
+      background: '#1abc9c',
+      color: '#fff',
+      textAlign: 'center',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     },
     statsValue: {
-        fontSize: '30px',
-        fontWeight: 'bold',
+      fontSize: '30px',
+      fontWeight: 'bold',
     },
     statsLabel: {
-        fontSize: '14px',
+      fontSize: '14px',
     },
     mainContent: {
-        flex: '1',
+      flex: '1',
+      backgroundColor: '#ffffff',
+      borderRadius: '10px',
+      padding: '20px',
+      boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
     },
     stickyContainer: {
-        position: 'sticky',
-        top: '0',
-        backgroundColor: '#fff',
-        zIndex: '1000',
-        padding: '5px',
-        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-        marginBottom: '10px',
+      position: 'sticky',
+      top: '0',
+      backgroundColor: '#ecf0f1', // ✅ Replaced #ffffff for soft contrast
+      zIndex: '1000',
+      padding: '5px',
+      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.05)',
+      marginBottom: '10px',
     },
     headerStyle: {
-        textAlign: 'center',
-        fontSize: '2.5em',
-        fontWeight: 'bold',
-        color: '#333',
-        margin: '0',
-        background: 'linear-gradient(135deg, #007BFF, #5A9BFF)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
+      fontSize: '2.2em',
+      fontWeight: 'bold',
+      color: '#2c3e50',
+      textAlign: 'center',
+      marginBottom: '10px',
     },
     categoriesContainer: {
-        display: 'flex',
-        gap: '10px',
-        justifyContent: 'center',
-        margin: '10px auto',
-        flexWrap: 'wrap',
+      display: 'flex',
+      gap: '10px',
+      justifyContent: 'center',
+      margin: '10px auto',
+      flexWrap: 'wrap',
     },
     categoryButton: (isSelected) => ({
-        padding: "10px 20px",
-        borderRadius: "8px",
-        border: "2px solid black",
-        backgroundColor: isSelected ? "white" : "#007BFF",
-        color: isSelected ? "black" : "white",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      border: `2px solid #1abc9c`,
+      backgroundColor: isSelected ? "#ffffff" : "#1abc9c",
+      color: isSelected ? "#1abc9c" : "white",
+      cursor: "pointer",
+      fontWeight: "bold",
+      transition: "all 0.3s ease",
     }),
-    categoryButtonHover: {
-        backgroundColor: '#0056b3',
-    },
     tableContainer: {
-        width: '100%',
-        borderCollapse: 'collapse',
+      width: '100%',
+      borderCollapse: 'collapse',
+      marginTop: '20px',
     },
     tableHeader: {
-        backgroundColor: '#007BFF',
-        color: 'white',
-        padding: '12px',
-        fontSize: '18px',
-        fontWeight: 'bold',
+      backgroundColor: '#1abc9c', // ✅ Replaced #007BFF
+      color: 'white',
+      padding: '12px',
+      fontSize: '18px',
+      fontWeight: 'bold',
     },
     tableRow: {
-        padding: '8px 12px',
-        textAlign: 'center',
+      padding: '8px 12px',
+      textAlign: 'center',
     },
     evenRow: {
-        backgroundColor: '#f9f9f9',
+      backgroundColor: '#f9f9f9',
     },
     oddRow: {
-        backgroundColor: '#fff',
+      backgroundColor: '#ffffff',
     },
     problemTitle: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        color: '#333',
-        maxWidth: '250px',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
-        marginLeft: '20px'
+      fontSize: '16px',
+      fontWeight: 'bold',
+      color: '#333',
+      maxWidth: '250px',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      marginLeft: '20px',
     },
     getDifficultyStyle: (difficulty) => {
-        switch (difficulty) {
-            case 'Easy':
-                return { color: 'green', fontWeight: 'bold' };
-            case 'Medium':
-                return { color: 'orange', fontWeight: 'bold' };
-            case 'Hard':
-                return { color: 'red', fontWeight: 'bold' };
-            default:
-                return { color: '#555' };
-        }
+      switch (difficulty) {
+        case 'Easy':
+          return { color: 'green', fontWeight: 'bold' };
+        case 'Medium':
+          return { color: 'orange', fontWeight: 'bold' };
+        case 'Hard':
+          return { color: 'red', fontWeight: 'bold' };
+        default:
+          return { color: '#555' };
+      }
     },
     solvedText: {
-        color: 'green',
-        fontSize: '14px',
-    },
-    buttonStyle: {
-        padding: '7px 15px',
-        backgroundColor: '#28a745',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        marginTop: '1px',
-        transition: 'background-color 0.3s ease',
-    },
-    solvedProblemStyle: {
-        backgroundColor: '#28a745',
-        color: 'white',
-        padding: '5px 10px',
-        borderRadius: '12px',
-        fontWeight: 'bold',
-        fontSize: '14px',
-        display: 'inline-block',
-        textAlign: 'center',
+      color: 'green',
+      fontSize: '14px',
     },
     solveProblemStyle: {
-        backgroundColor: '#007bff',
-        color: 'white',
-        padding: '8px 16px',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        fontWeight: 'bold',
-        fontSize: '14px',
-        transition: 'background-color 0.3s',
-    }
-};
+      backgroundColor: '#1abc9c',
+      color: 'white',
+      padding: '8px 16px',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      fontWeight: 'bold',
+      fontSize: '14px',
+      transition: 'background-color 0.3s',
+    },
+  };
+  
+
+// const styles = {
+//     pageContainer: {
+//         margin: 'auto',
+//         padding: '5px 20px',
+//         fontFamily: "'Poppins', sans-serif",
+//         display: 'flex',
+//         gap: '20px',
+//     },
+//     sidebar: {
+//         maxWidth: '250px',
+//         backgroundColor: '#f8f9fa',
+//         borderRadius: '10px',
+//         padding: '20px',
+//         flex: '0 0 25%',
+//         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+//     },
+//     sidebarHeader: {
+//         fontSize: '20px',
+//         fontWeight: 'bold',
+//         marginBottom: '10px',
+//         color: '#333',
+//     },
+//     statsBox: {
+//         marginBottom: '20px',
+//         padding: '15px',
+//         borderRadius: '8px',
+//         background: 'linear-gradient(135deg, #007BFF, #5A9BFF)',
+//         color: '#fff',
+//         textAlign: 'center',
+//         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+//     },
+//     statsValue: {
+//         fontSize: '30px',
+//         fontWeight: 'bold',
+//     },
+//     statsLabel: {
+//         fontSize: '14px',
+//     },
+//     mainContent: {
+//         flex: '1',
+//     },
+//     stickyContainer: {
+//         position: 'sticky',
+//         top: '0',
+//         backgroundColor: '#fff',
+//         zIndex: '1000',
+//         padding: '5px',
+//         boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+//         marginBottom: '10px',
+//     },
+//     headerStyle: {
+//         textAlign: 'center',
+//         fontSize: '2.5em',
+//         fontWeight: 'bold',
+//         color: '#333',
+//         margin: '0',
+//         background: 'linear-gradient(135deg, #007BFF, #5A9BFF)',
+//         WebkitBackgroundClip: 'text',
+//         WebkitTextFillColor: 'transparent',
+//     },
+//     categoriesContainer: {
+//         display: 'flex',
+//         gap: '10px',
+//         justifyContent: 'center',
+//         margin: '10px auto',
+//         flexWrap: 'wrap',
+//     },
+//     categoryButton: (isSelected) => ({
+//         padding: "10px 20px",
+//         borderRadius: "8px",
+//         border: "2px solid black",
+//         backgroundColor: isSelected ? "white" : "#007BFF",
+//         color: isSelected ? "black" : "white",
+//         cursor: "pointer",
+//         transition: "all 0.3s ease",
+//     }),
+//     categoryButtonHover: {
+//         backgroundColor: '#0056b3',
+//     },
+//     tableContainer: {
+//         width: '100%',
+//         borderCollapse: 'collapse',
+//     },
+//     tableHeader: {
+//         backgroundColor: '#007BFF',
+//         color: 'white',
+//         padding: '12px',
+//         fontSize: '18px',
+//         fontWeight: 'bold',
+//     },
+//     tableRow: {
+//         padding: '8px 12px',
+//         textAlign: 'center',
+//     },
+//     evenRow: {
+//         backgroundColor: '#f9f9f9',
+//     },
+//     oddRow: {
+//         backgroundColor: '#fff',
+//     },
+//     problemTitle: {
+//         fontSize: '16px',
+//         fontWeight: 'bold',
+//         color: '#333',
+//         maxWidth: '250px',
+//         overflow: 'hidden',
+//         whiteSpace: 'nowrap',
+//         textOverflow: 'ellipsis',
+//         marginLeft: '20px'
+//     },
+//     getDifficultyStyle: (difficulty) => {
+//         switch (difficulty) {
+//             case 'Easy':
+//                 return { color: 'green', fontWeight: 'bold' };
+//             case 'Medium':
+//                 return { color: 'orange', fontWeight: 'bold' };
+//             case 'Hard':
+//                 return { color: 'red', fontWeight: 'bold' };
+//             default:
+//                 return { color: '#555' };
+//         }
+//     },
+//     solvedText: {
+//         color: 'green',
+//         fontSize: '14px',
+//     },
+//     buttonStyle: {
+//         padding: '7px 15px',
+//         backgroundColor: '#28a745',
+//         color: '#fff',
+//         border: 'none',
+//         borderRadius: '5px',
+//         cursor: 'pointer',
+//         marginTop: '1px',
+//         transition: 'background-color 0.3s ease',
+//     },
+//     solvedProblemStyle: {
+//         backgroundColor: '#28a745',
+//         color: 'white',
+//         padding: '5px 10px',
+//         borderRadius: '12px',
+//         fontWeight: 'bold',
+//         fontSize: '14px',
+//         display: 'inline-block',
+//         textAlign: 'center',
+//     },
+//     solveProblemStyle: {
+//         backgroundColor: '#007bff',
+//         color: 'white',
+//         padding: '8px 16px',
+//         border: 'none',
+//         borderRadius: '5px',
+//         cursor: 'pointer',
+//         fontWeight: 'bold',
+//         fontSize: '14px',
+//         transition: 'background-color 0.3s',
+//     }
+// };
 const DsaProblems = () => {
     const { loggedInUserId } = useContext(AuthContext);
     const navigate = useNavigate();

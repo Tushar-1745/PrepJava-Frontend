@@ -17,3 +17,25 @@ export const reportBug = async (bugData) => {
   const res = await axios.post(`${API_BASE_URL}/bug/report`, bugData);
   return res.data;
 };
+
+export const verifyEmail = async ({ email }) => {
+  try {
+    const res = await axios.post(`${API_BASE_URL}/auth/verify-email`, { email });
+    return res.data; // e.g., "Email exists"
+  } catch (err) {
+    if (err.response && err.response.data) {
+      return err.response.data; // e.g., "Email not found" or "Error verifying email"
+    }
+    return 'Error verifying email'; // generic fallback
+  }
+};
+
+
+export const resetPassword = async ({ email, newPassword }) => {
+  const res = await axios.post(`${API_BASE_URL}/auth/reset-password`, {
+    email,
+    newPassword,
+  });
+  console.log("resetpassword is", res);
+  return res.data;
+};
