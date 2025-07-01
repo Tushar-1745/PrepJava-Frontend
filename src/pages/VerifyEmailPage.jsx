@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const VerifyEmailPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const BACKEND_URL = "https://prepjava-backend-6vfj.onrender.com";
 
     useEffect(() => {
         const token = new URLSearchParams(location.search).get('token');
@@ -15,8 +16,7 @@ const VerifyEmailPage = () => {
             return;
         }
 
-        // Call backend to verify token
-        fetch(`/api/verify-email-token?token=${token}`)
+        fetch(`${BACKEND_URL}/api/verify-email-token?token=${token}`)
             .then(async (res) => {
                 if (!res.ok) {
                     const errorText = await res.text();
