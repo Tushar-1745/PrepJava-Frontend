@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signup, sendEmailVerification } from '../api/api';
+import { verifyEmail } from '../api/contactUsApi';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { AuthContext } from '../context/AuthContext';
 import LoginModal from '../modals/LoginModal';
@@ -112,6 +113,16 @@ const SignupPage = () => {
         localStorage.setItem('signupFormBackup', JSON.stringify({ firstName, lastName, email, mobileNumber }));
     
         setSendingVerification(true);
+
+        const result = await verifyEmail({ email: formData.email });
+
+        if (result === 'Email exists') {
+            setModalMessage('Email is already registered. Please login or reset your password.');
+            setOpenModal(true);
+            setTimeout(() => setOpenModal(false), 3000);
+            setSendingVerification(false);
+            return;
+        }
         try {
             await sendEmailVerification(formData.email);
             setModalMessage('Verification link sent to your email');
