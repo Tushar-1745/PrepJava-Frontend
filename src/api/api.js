@@ -208,7 +208,7 @@ export const sendMobileVerification = async (mobileNumber) => {
   
   // Check if a mobile number is verified
   export const isMobileVerified = async (mobileNumber) => {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/is-mobile-verified?mobileNumber=${mobileNumber}`);
+    const response = await fetch(`${API_URL}/is-mobile-verified?mobileNumber=${mobileNumber}`);
     if (!response.ok) throw new Error("Failed to check verification");
     return await response.json(); // true or false
   };
