@@ -176,6 +176,45 @@ export const sendEmailVerification = async (email) => {
     return response.data;
 };
 
+// export const sendMobileVerification = async (mobileNumber) => {
+//     const response = await axios.post(`${API_URL}/send-verification-mobile`, { mobileNumber });
+//     console.log("response for mobile verification is", response);
+//     return response.data;
+// };
+
+// Send OTP to mobile
+export const sendMobileVerification = async (mobileNumber) => {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/send-verification-mobile`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mobileNumber })
+    });
+
+    console.log("response for mobile is ", response);
+  
+    if (!response.ok) throw new Error("Failed to send OTP");
+    return await response.text(); // "OTP sent to mobile number"
+  };
+  
+  // Verify OTP (uses token as query param)
+  export const verifyMobileOtpAPI = async (token) => {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/verify-mobile-token?token=${token}`, {
+      method: 'GET'
+    });
+  
+    if (!response.ok) throw new Error("Invalid or expired OTP");
+    return await response.text(); // "Mobile number verified"
+  };
+  
+  // Check if a mobile number is verified
+  export const isMobileVerified = async (mobileNumber) => {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/is-mobile-verified?mobileNumber=${mobileNumber}`);
+    if (!response.ok) throw new Error("Failed to check verification");
+    return await response.json(); // true or false
+  };
+  
+
+
 
 
 
