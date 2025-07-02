@@ -23,6 +23,8 @@ const SignupPage = () => {
     const [modalMessage, setModalMessage] = useState('');
     const [openModal, setOpenModal] = useState(false);
     const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+    const [sendingVerification, setSendingVerification] = useState(false);
+
 
     const { loginUser } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -47,15 +49,37 @@ const SignupPage = () => {
         }
     
         const verifiedEmail = localStorage.getItem("verifiedEmail");
-        if (verifiedEmail) {
+        const savedForm = localStorage.getItem("signupFormBackup");
+    
+        if (verifiedEmail && savedForm) {
+            const parsedForm = JSON.parse(savedForm);
             setFormData(prev => ({
                 ...prev,
-                email: verifiedEmail,
+                ...parsedForm,
                 isEmailVerified: true
             }));
             localStorage.removeItem("verifiedEmail");
+            localStorage.removeItem("signupFormBackup");
         }
     }, []);
+    
+
+    // useEffect(() => {
+    //     const storedUser = localStorage.getItem('loggedInUser');
+    //     if (storedUser) {
+    //         navigate('/javapage');
+    //     }
+    
+    //     const verifiedEmail = localStorage.getItem("verifiedEmail");
+    //     if (verifiedEmail) {
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             email: verifiedEmail,
+    //             isEmailVerified: true
+    //         }));
+    //         localStorage.removeItem("verifiedEmail");
+    //     }
+    // }, []);
     
 
     const validateForm = () => {
@@ -82,9 +106,14 @@ const SignupPage = () => {
             setErrors(prev => ({ ...prev, email: 'Enter a valid email first' }));
             return;
         }
-
+    
+        // Save partial form data (excluding passwords)
+        const { firstName, lastName, email, mobileNumber } = formData;
+        localStorage.setItem('signupFormBackup', JSON.stringify({ firstName, lastName, email, mobileNumber }));
+    
+        setSendingVerification(true);
         try {
-            await sendEmailVerification(formData.email); // API to send link
+            await sendEmailVerification(formData.email);
             setModalMessage('Verification link sent to your email');
             setEmailVerificationSent(true);
         } catch (err) {
@@ -92,8 +121,31 @@ const SignupPage = () => {
         } finally {
             setOpenModal(true);
             setTimeout(() => setOpenModal(false), 3000);
+            setSendingVerification(false);
         }
     };
+    
+
+    // const sendEmailVerificationLink = async () => {
+    //     if (!formData.email) {
+    //         setErrors(prev => ({ ...prev, email: 'Enter a valid email first' }));
+    //         return;
+    //     }
+    
+    //     setSendingVerification(true); // Start loading
+    //     try {
+    //         await sendEmailVerification(formData.email);
+    //         setModalMessage('Verification link sent to your email');
+    //         setEmailVerificationSent(true);
+    //     } catch (err) {
+    //         setModalMessage('Failed to send verification link. Try again.');
+    //     } finally {
+    //         setOpenModal(true);
+    //         setTimeout(() => setOpenModal(false), 3000);
+    //         setSendingVerification(false); // End loading
+    //     }
+    // };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -153,6 +205,41 @@ const SignupPage = () => {
   />
   {!formData.isEmailVerified ? (
     <div style={styles.verificationRight}>
+      {sendingVerification ? (
+        <span style={{ fontSize: '0.85rem', color: '#1abc9c' }}>Sending...</span>
+      ) : (
+        <span
+          onClick={sendEmailVerificationLink}
+          style={{
+            ...styles.verifyText,
+            color: emailVerificationSent ? '#95a5a6' : '#1abc9c',
+            cursor: emailVerificationSent ? 'default' : 'pointer',
+          }}
+        >
+          {emailVerificationSent ? 'Link Sent' : 'Send Verification Link'}
+        </span>
+      )}
+    </div>
+  ) : (
+    <div style={styles.verificationRight}>
+      <span style={styles.verifiedLabel}>Verified</span>
+    </div>
+  )}
+</div>
+
+
+{/* <div>
+  <input
+    type="email"
+    name="email"
+    placeholder="Email"
+    value={formData.email}
+    onChange={handleChange}
+    required
+    style={styles.input}
+  />
+  {!formData.isEmailVerified ? (
+    <div style={styles.verificationRight}>
       <span
         onClick={sendEmailVerificationLink}
         style={{
@@ -166,10 +253,10 @@ const SignupPage = () => {
     </div>
   ) : (
     <div style={styles.verificationRight}>
-      <span style={styles.verifiedLabel}>✅ Verified</span>
+      <span style={styles.verifiedLabel}>Verified</span>
     </div>
   )}
-</div>
+</div> */}
 
                     {errors.email && <p style={styles.error}>{errors.email}</p>}
 
