@@ -184,7 +184,7 @@ export const sendEmailVerification = async (email) => {
 
 // Send OTP to mobile
 export const sendMobileVerification = async (mobileNumber) => {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/send-verification-mobile`, {
+    const response = await fetch(`${API_URL}/send-verification-mobile`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ mobileNumber })
@@ -198,7 +198,7 @@ export const sendMobileVerification = async (mobileNumber) => {
   
   // Verify OTP (uses token as query param)
   export const verifyMobileOtpAPI = async (token) => {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/verify-mobile-token?token=${token}`, {
+    const response = await fetch(`${API_URL}/verify-mobile-token?token=${token}`, {
       method: 'GET'
     });
   
