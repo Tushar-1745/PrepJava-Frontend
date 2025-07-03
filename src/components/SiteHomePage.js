@@ -131,7 +131,7 @@ const SiteHomePage = () => {
           onMouseOver={(e) => (e.target.style.backgroundColor = '#e64a19')}
           onMouseOut={(e) => (e.target.style.backgroundColor = '#ff5722')}
         >
-          <Link to="/javapage" style={{ textDecoration: 'none', color: 'white' }}>Get Started</Link>
+          <Link to="/java/javadashboard" style={{ textDecoration: 'none', color: 'white' }}>Get Started</Link>
         </button>
       </section>
 

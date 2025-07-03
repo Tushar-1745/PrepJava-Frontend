@@ -2,30 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const dummyModules = [
-  { name: 'Java Overview', status: 'completed' },
-  { name: 'Java History', status: 'completed' },
-  { name: 'Java Basics', status: 'in_progress' },
-  { name: 'OOP in Java', status: 'not_started' },
-  { name: 'Exception Handling', status: 'not_started' },
-  { name: 'Collections Framework', status: 'not_started' },
+  { name: 'Java Overview',         status: 'completed'  },
+  { name: 'Java History',          status: 'completed'  },
+  { name: 'Java Basics',           status: 'in_progress'},
+  { name: 'OOP in Java',           status: 'not_started'},
+  { name: 'Exception Handling',    status: 'not_started'},
+  { name: 'Collections Framework', status: 'not_started'},
 ];
 
 const JavaDashboard = () => {
   const [modules, setModules] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setModules(dummyModules);
-  }, []);
+  useEffect(() => setModules(dummyModules), []);
 
-  const completedCount = modules.filter((m) => m.status === 'completed').length;
-  const percentage = Math.round((completedCount / modules.length) * 100);
+  const completedCount = modules.filter(m => m.status === 'completed').length;
+  const percentage     = Math.round((completedCount / modules.length) * 100);
 
-  const getStatusColor = (status) => {
+  /* grayscale row background to keep main content B/W */
+  const getStatusBg = (status) => {
     switch (status) {
-      case 'completed': return '#d4edda';
-      case 'in_progress': return '#fff3cd';
-      default: return '#f8f9fa';
+      case 'completed':   return '#efefef'; // light gray
+      case 'in_progress': return '#f7f7f7'; // even lighter
+      default:            return '#ffffff'; // pure white
     }
   };
 
@@ -34,8 +33,9 @@ const JavaDashboard = () => {
       <div style={styles.wrapper}>
         <h1 style={styles.title}>Java Learning Dashboard</h1>
 
+        {/* Progress card */}
         <div style={styles.card}>
-          <h2>Progress Overview</h2>
+          <h2 style={styles.cardTitle}>Progress Overview</h2>
           <p style={styles.percent}>{percentage}%</p>
           <p style={styles.status}>{completedCount} of {modules.length} modules completed</p>
           <button style={styles.button} onClick={() => navigate('/javapage')}>
@@ -43,32 +43,32 @@ const JavaDashboard = () => {
           </button>
         </div>
 
+        {/* Two‑column section */}
         <div style={styles.row}>
           <div style={styles.card}>
-            <h2>Next Recommended Module</h2>
-            {modules.find((m) => m.status === 'not_started') ? (
-              <p>{modules.find((m) => m.status === 'not_started').name}</p>
-            ) : (
-              <p>You're all caught up!</p>
-            )}
+            <h2 style={styles.cardTitle}>Next Recommended Module</h2>
+            {modules.find(m => m.status === 'not_started')
+              ? <p style={styles.text}>{modules.find(m => m.status === 'not_started').name}</p>
+              : <p style={styles.text}>You're all caught up!</p>}
           </div>
 
           <div style={styles.card}>
-            <h2>Achievements</h2>
-            {percentage >= 50 && <p>🏆 Beginner Badge</p>}
-            {percentage >= 100 && <p>🥇 Java Master Badge</p>}
+            <h2 style={styles.cardTitle}>Achievements</h2>
+            {percentage >= 50  && <p style={styles.text}>🏆 Beginner Badge</p>}
+            {percentage >= 100 && <p style={styles.text}>🥇 Java Master Badge</p>}
           </div>
         </div>
 
+        {/* Module list */}
         <div style={styles.card}>
-          <h2>Modules</h2>
+          <h2 style={styles.cardTitle}>Modules</h2>
           <ul style={styles.moduleList}>
             {modules.map((mod, idx) => (
               <li
                 key={idx}
                 style={{
                   ...styles.moduleItem,
-                  backgroundColor: getStatusColor(mod.status),
+                  backgroundColor: getStatusBg(mod.status),
                 }}
               >
                 <span>{mod.name}</span>
@@ -87,10 +87,12 @@ const JavaDashboard = () => {
   );
 };
 
+/* ------------------ styles ------------------ */
 const styles = {
+  /* only background is dark */
   container: {
     minHeight: '100vh',
-    backgroundColor: '#f0f2f5',
+    backgroundColor: '#2c3e50',
     fontFamily: 'Poppins, sans-serif',
     padding: '20px',
   },
@@ -104,16 +106,25 @@ const styles = {
   title: {
     fontSize: '28px',
     fontWeight: 'bold',
+    color: '#ffffff',
   },
+  /* primary cards are plain white */
   card: {
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     padding: '20px',
     borderRadius: '10px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+  },
+  cardTitle: {
+    color: '#2c3e50',
+    marginBottom: '10px',
+  },
+  text: {
+    color: '#2c3e50',
   },
   percent: {
     fontSize: '24px',
-    color: '#007bff',
+    color: '#2c3e50',
     fontWeight: 'bold',
   },
   status: {
@@ -122,8 +133,8 @@ const styles = {
   button: {
     marginTop: '15px',
     padding: '10px 20px',
-    backgroundColor: '#007bff',
-    color: 'white',
+    backgroundColor: '#1abc9c',   // accent for CTA
+    color: '#ffffff',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
@@ -147,11 +158,12 @@ const styles = {
     marginBottom: '10px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    flexWrap: 'wrap',
+    color: '#2c3e50',
   },
   moduleLink: {
-    color: '#007bff',
+    color: '#1abc9c',
     textDecoration: 'underline',
+    fontWeight: '600',
   },
 };
 
