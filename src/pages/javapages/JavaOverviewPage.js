@@ -2,11 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { getScoreByModule } from '../../api/api.js'; // ✅ Ensure this exists in your api.js
+// ... all imports remain the same
 
 const JavaOverviewPage = () => {
   const navigate = useNavigate();
   const { loggedInUserId } = useContext(AuthContext);
   const [scoreData, setScoreData] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchScore = async () => {
@@ -25,27 +27,10 @@ const JavaOverviewPage = () => {
   const scoredMarks = scoreData?.score ?? null;
   const totalMarks = scoreData?.total ?? null;
 
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const contentSections = [
-    { title: 'What is Java?', content: 'Java is a powerful, versatile...' },
-    { title: 'Key Features', content: 'Simple, Object-Oriented, WORA...' },
-    { title: 'Java Architecture', content: 'JVM, JRE, bytecode...' },
-    // Add more sections here
-  ];
-  
-  // Filtered by search
-  const filteredSections = contentSections.filter(
-    section =>
-      section.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      section.content.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  
-
   const getScoreColor = (scored) => {
-    if (scored >= 9) return '#6fdc8c';     // Light green
-    if (scored >= 6) return '#f4a742';     // Soft orange
-    return '#e57373';                      // Light red
+    if (scored >= 9) return '#6fdc8c';
+    if (scored >= 6) return '#f4a742';
+    return '#e57373';
   };
 
   const handleCopy = (codeId) => {
@@ -63,8 +48,7 @@ const JavaOverviewPage = () => {
       padding: '10px 20px',
       fontFamily: "'Poppins', sans-serif",
       backgroundColor: 'white',
-      color: '#333333',
-      lineHeight: '1.5',
+      color: '#333',
     },
     headerContainer: {
       display: 'flex',
@@ -75,15 +59,12 @@ const JavaOverviewPage = () => {
       fontSize: '2.5rem',
       color: 'black',
     },
-    score: {
-      fontSize: '1.2rem',
-      fontWeight: 'bold',
-    },
     sectionHeader: {
       fontSize: '1.5rem',
       color: 'black',
-      borderBottom: '1px solid black',
+      borderBottom: '2px solid #1abc9c',
       display: 'inline-block',
+      marginTop: '30px',
     },
     paragraph: {
       fontSize: '1.1rem',
@@ -109,17 +90,6 @@ const JavaOverviewPage = () => {
       float: 'right',
       padding: '5px 10px',
     },
-    practiceButton: {
-      margin: '25px auto',
-      color: 'black',
-      padding: '5px 10px',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      fontSize: '1rem',
-      display: 'inline-block',
-      backgroundColor: '#89CFF0',
-    },
     list: {
       paddingLeft: '20px',
       margin: '10px 0',
@@ -128,14 +98,16 @@ const JavaOverviewPage = () => {
       marginBottom: '10px',
     },
     takeTestButton: {
-      backgroundColor: '#34495e', // Dark blue-gray matching navbar/sidebar
-      color: 'white',
+      backgroundColor: '#1abc9c',
+      color: '#fff',
       padding: '12px 24px',
       fontSize: '1.1rem',
       border: 'none',
       borderRadius: '8px',
       cursor: 'pointer',
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      marginTop: '30px',
+      display: 'inline-block',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
       transition: 'all 0.3s ease',
     },
   };
@@ -150,7 +122,7 @@ const JavaOverviewPage = () => {
               width: '30px',
               height: '30px',
               marginLeft: '12px',
-              marginTop: '-6px', // Push slightly upward
+              marginTop: '-6px',
               borderRadius: '50%',
               border: `2px solid ${getScoreColor(scoredMarks)}`,
               display: 'flex',
@@ -167,12 +139,12 @@ const JavaOverviewPage = () => {
         )}
       </div>
 
-
-
-
       <h2 style={styles.sectionHeader}>What is Java?</h2>
       <p style={styles.paragraph}>
-        Java is a powerful, versatile, and widely-used programming language developed by Sun Microsystems in 1995...
+        Java is a class-based, object-oriented programming language designed to have as few implementation dependencies as possible.
+        It was originally developed by James Gosling at Sun Microsystems (now Oracle) in 1995.
+        Java allows developers to write code once and run it anywhere (WORA), meaning compiled Java code can run on all platforms
+        that support Java without the need for recompilation.
       </p>
 
       <h2 style={styles.sectionHeader}>Key Features</h2>
@@ -205,35 +177,35 @@ const JavaOverviewPage = () => {
 
       <h2 style={styles.sectionHeader}>Java Architecture</h2>
       <p style={styles.paragraph}>
-        Java programs are compiled into bytecode by the Java Compiler, which runs on the Java Virtual Machine (JVM).
-        This architecture enables Java's "Write Once, Run Anywhere" capability.
+        Java architecture is based on the concept of the Java Virtual Machine (JVM). The source code written in Java is compiled
+        into bytecode by the Java compiler. This bytecode is platform-independent and can run on any system that has a JVM.
+        The JVM interprets or compiles bytecode into machine code using Just-In-Time (JIT) compilers.
       </p>
 
       <h2 style={styles.sectionHeader}>How Java Code Runs</h2>
       <ol style={styles.list}>
-        <li style={styles.listItem}>Java code (.java) is written by the developer.</li>
-        <li style={styles.listItem}>The compiler converts it to bytecode (.class).</li>
-        <li style={styles.listItem}>The JVM interprets or JIT-compiles the bytecode to native machine code.</li>
-        <li style={styles.listItem}>The program executes on the host machine.</li>
+        <li style={styles.listItem}>Java source file (.java) is written.</li>
+        <li style={styles.listItem}>The compiler (`javac`) converts it to bytecode (.class).</li>
+        <li style={styles.listItem}>The JVM loads the bytecode and executes it using either an interpreter or JIT.</li>
+        <li style={styles.listItem}>The final output appears on the system running the JVM.</li>
       </ol>
 
       <h2 style={styles.sectionHeader}>Where is Java Used?</h2>
       <ul style={styles.list}>
-        <li style={styles.listItem}>Enterprise Applications (e.g., Spring Boot)</li>
-        <li style={styles.listItem}>Android App Development</li>
-        <li style={styles.listItem}>Web Applications</li>
-        <li style={styles.listItem}>Big Data (e.g., Hadoop)</li>
-        <li style={styles.listItem}>Cloud-native Microservices</li>
+        <li style={styles.listItem}>Enterprise Applications (Spring, Hibernate)</li>
+        <li style={styles.listItem}>Android Development (Kotlin + Java)</li>
+        <li style={styles.listItem}>Web Applications (JSP, Servlets)</li>
+        <li style={styles.listItem}>Scientific Applications</li>
+        <li style={styles.listItem}>Game Development</li>
+        <li style={styles.listItem}>Big Data and Hadoop Frameworks</li>
+        <li style={styles.listItem}>Cloud-Based Applications</li>
       </ul>
-
-
 
       <button
         style={styles.takeTestButton}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#2c3e50')}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#34495e')}
-
         onClick={handleTakeTest}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#00a38c')}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#1abc9c')}
       >
         🎯 Take Test on Java Overview
       </button>

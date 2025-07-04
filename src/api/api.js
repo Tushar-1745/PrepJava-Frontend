@@ -203,19 +203,20 @@ export const sendMobileVerification = async (mobileNumber) => {
 };
 
 // 2. Verify OTP token (query param: ?token=xxxxxx)
-export const verifyMobileOtpAPI = async (token) => {
-  const response = await fetch(`${API_URL}/verify-mobile-token?token=${token}`, {
-    method: 'GET'
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error("OTP verification failed:", errorText);
-    throw new Error("Invalid or expired OTP");
-  }
-
-  return await response.text(); // e.g. "Mobile number verified"
-};
+export const verifyMobileOtpAPI = async (mobileNumber, token) => {
+    const response = await fetch(`${API_URL}/verify-mobile-token?mobileNumber=${mobileNumber}&token=${token}`, {
+      method: 'GET'
+    });
+  
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("OTP verification failed:", errorText);
+      throw new Error("Invalid or expired OTP");
+    }
+  
+    return await response.text(); // should return "verified"
+  };
+  
 
 // 3. Check if mobile number is already verified
 export const isMobileVerified = async (mobileNumber) => {

@@ -150,7 +150,7 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '10px 15px',
+        padding: '1px 15px',
         backgroundColor: '#ffffff',
         borderBottom: '1px solid #e0e0e0',
         flexWrap: 'wrap',

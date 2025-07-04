@@ -28,11 +28,27 @@ const SignupPage = () => {
     const [emailVerificationSent, setEmailVerificationSent] = useState(false);
     const [sendingEmailVerification, setSendingEmailVerification] = useState(false);
     const [sendingMobileVerification, setSendingMobileVerification] = useState(false);
+    const [timer, setTimer] = useState(300); // 5 minutes in seconds
+    const [resendEnabled, setResendEnabled] = useState(false);
+
 
     const [mobileVerificationSent, setMobileVerificationSent] = useState(false);
 
     const { loginUser } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        let interval;
+        if (mobileVerificationSent && timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        } else if (timer === 0) {
+            setResendEnabled(true); // Allow resend
+        }
+        return () => clearInterval(interval);
+    }, [timer, mobileVerificationSent]);
+
 
     useEffect(() => {
         const storedUser = localStorage.getItem('loggedInUser');
@@ -116,7 +132,6 @@ const SignupPage = () => {
         }
     };
 
-
     const sendMobileVerificationLink = async () => {
         if (!formData.mobileNumber || formData.mobileNumber.length !== 10) {
             setErrors(prev => ({ ...prev, mobileNumber: 'Enter a valid 10-digit number' }));
@@ -127,6 +142,8 @@ const SignupPage = () => {
             setSendingMobileVerification(true);
             await sendMobileVerification(formData.mobileNumber);
             setMobileVerificationSent(true);
+            setTimer(300); // Reset timer
+            setResendEnabled(false); // Disable resend until time's up
             setModalMessage('OTP sent to your mobile number');
         } catch (err) {
             setModalMessage('Failed to send OTP. Try again.');
@@ -136,6 +153,27 @@ const SignupPage = () => {
             setSendingMobileVerification(false);
         }
     };
+
+
+    // const sendMobileVerificationLink = async () => {
+    //     if (!formData.mobileNumber || formData.mobileNumber.length !== 10) {
+    //         setErrors(prev => ({ ...prev, mobileNumber: 'Enter a valid 10-digit number' }));
+    //         return;
+    //     }
+
+    //     try {
+    //         setSendingMobileVerification(true);
+    //         await sendMobileVerification(formData.mobileNumber);
+    //         setMobileVerificationSent(true);
+    //         setModalMessage('OTP sent to your mobile number');
+    //     } catch (err) {
+    //         setModalMessage('Failed to send OTP. Try again.');
+    //     } finally {
+    //         setOpenModal(true);
+    //         setTimeout(() => setOpenModal(false), 3000);
+    //         setSendingMobileVerification(false);
+    //     }
+    // };
 
     const verifyMobileOtp = async () => {
         try {
@@ -153,6 +191,7 @@ const SignupPage = () => {
             setTimeout(() => setOpenModal(false), 3000);
         }
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -243,12 +282,33 @@ const SignupPage = () => {
                     {errors.mobileNumber && <p style={styles.error}>{errors.mobileNumber}</p>}
 
                     {/* OTP Input */}
-                    {mobileVerificationSent && !formData.isMobileVerified && (
+                    {/* {mobileVerificationSent && !formData.isMobileVerified && (
                         <div style={{ width: '90%', margin: '0 auto 1rem auto' }}>
                             <input type="text" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} style={styles.input} />
                             <button onClick={verifyMobileOtp} style={styles.verifyBtn} type="button">Verify OTP</button>
                         </div>
+                    )} */}
+
+                    {mobileVerificationSent && !formData.isMobileVerified && (
+                        <div style={{ width: '90%', margin: '0 auto 1rem auto' }}>
+                            <input type="text" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} style={styles.input} />
+                            <button onClick={verifyMobileOtp} style={styles.verifyBtn} type="button">Verify OTP</button>
+
+                            <p style={{ fontSize: '0.85rem', color: '#ecf0f1', marginTop: '0.5rem' }}>
+                                {timer > 0
+                                    ? `Expires in ${Math.floor(timer / 60)}:${('0' + (timer % 60)).slice(-2)}`
+                                    : resendEnabled && (
+                                        <span
+                                            onClick={sendMobileVerificationLink}
+                                            style={{ color: '#1abc9c', textDecoration: 'underline', cursor: 'pointer' }}
+                                        >
+                                            Resend OTP
+                                        </span>
+                                    )}
+                            </p>
+                        </div>
                     )}
+
 
                     {/* Password */}
                     <div style={styles.inputGroup}>
